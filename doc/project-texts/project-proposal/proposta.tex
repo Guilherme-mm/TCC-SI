@@ -87,9 +87,21 @@
 \usepackage[brazilian,hyperpageref]{backref}	 % Paginas com as citações na bibl
 \usepackage[alf]{abntex2cite}	% Citações padrão ABNT
 
+% ---
+% Pacotes de estilo
+% ---
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{array}
+\usepackage{makecell}
+
 % --- 
 % CONFIGURAÇÕES DE PACOTES
 % --- 
+
+\renewcommand\theadalign{bc}
+\renewcommand\theadfont{\bfseries}
+\renewcommand\theadgape{\Gape[4pt]}
+\renewcommand\cellgape{\Gape[4pt]}
 
 % ---
 % Configurações do pacote backref
@@ -111,7 +123,7 @@
 % ---
 % Informações de dados para CAPA e FOLHA DE ROSTO
 % ---
-\titulo{Apresentação de Proposta: Abordagem Genérica ppara Sistemas de Recomendações}
+\titulo{Apresentação de Proposta: Abordagem Genérica para Sistemas de Recomendações}
 \autor{Guilherme Müller Moreira}
 \orientador{Marco André Abud Kappel}
 \coorientador{Luis Claudio Batista da Silva}
@@ -242,7 +254,7 @@
 % inserir lista de ilustrações
 % ---
 
-\listoffigures* %% o * indica que não será incluso no sumário
+% \listoffigures* %% o * indica que não será incluso no sumário
 \cleardoublepage %% Pula página
 % ---
 
@@ -250,30 +262,30 @@
 % inserir lista de tabelas
 % ---
 
-\listoftables*
+% \listoftables*
 \cleardoublepage
 % ---
 
 % ---
 % inserir lista de abreviaturas e siglas
 % ---
-\begin{siglas}
-  \item[SRs] Sistemas de Recomendações
-  \item[456] Isto é um número
-  \item[123] Isto é outro número
-  \item[lauro cesar] este é o meu nome
-\end{siglas}
+% \begin{siglas}
+%   \item[SRs] Sistemas de Recomendações
+%   \item[456] Isto é um número
+%   \item[123] Isto é outro número
+%   \item[lauro cesar] este é o meu nome
+% \end{siglas}
 % ---
 
 % ---
 % inserir lista de símbolos
 % ---
-\begin{simbolos}
-  \item[$ \Gamma $] Letra grega Gama
-  \item[$ \Lambda $] Lambda
-  \item[$ \zeta $] Letra grega minúscula zeta
-  \item[$ \in $] Pertence
-\end{simbolos}
+% \begin{simbolos}
+%   \item[$ \Gamma $] Letra grega Gama
+%   \item[$ \Lambda $] Lambda
+%   \item[$ \zeta $] Letra grega minúscula zeta
+%   \item[$ \in $] Pertence
+% \end{simbolos}
 % ---
 
 % ---
@@ -299,20 +311,23 @@ O crescimento da internet e dos meios digitais popularizou plataformas digitais 
 O número de itens nestes sistemas podem atingir quantidade e variedades grandes o suficiente para que seja difícil para o usuário 
 encontrar o que busca sem o auxílio de mecanismos de filtragem. Um desses mecanismos são os sitemas de recomendação, que através de técnicas
 de aprendizado de máquina e análise de dados buscam entregar conteúdo personalizado para aos usuários. Em modelos de negócio digitais a eficiência em 
-oferecer ao usuário informações relevantes pode ter grande impacto no sucesso do empreendimento.
+oferecer informações relevantes pode ter grande impacto no sucesso do empreendimento.
 
 Os sistemas de recomendação funcionam através da coleta de informações dos usuários ou dos elementos de um sistema, processando-as e 
 identificando similaridades. Estas informações podem ser de diferentes tipos, alguns exemplos são: dados comportamentais, avaliações de usuário,
 características textuais e dados audiovisuais. O processo de identificação das similaridades assim como o método de seleção das Recomendações podem 
 ser implementados com diferentes abordagens. Este trabalho propõe uma abordagem genérica aos SRs utilizando técnicas de filtragem colaborativa.
 
+Algoritmos de filtragem colaborativa funcionam organizando os usuários ou itens de um sistema em grupos com base na similaridade que possuem entre si.
+Os índices de similaridade são extraídos analisando os dados de cada usuário e item do sistema. As recomendações para um usuário são geradas observando
+os usuários que mais se assemelham a ele, partindo do pressuposto de que os padrões comportamentais permanecem numa tendência. 
 \section{Problemas e Desafios}
 A construção de um sistema de recomendações não é trivial e apresenta alguns desafios. Dentre as dificuldades recorrentes da 
 implementação de SRs \citeauthoronline{2-CFSurvey} destacam:
 
 \begin{itemize}
 	\item \textbf{Esparsidade dos Dados:} Refere-se a necessidade do sistema de recomendações de lidar com itens cujos dados coletados ainda não são
-	suficientes para estabelecer as similaridades com outros itens. Este problema é comum quando um novo elemento é adicionado ao sistema. Em cenários
+	suficientes para estabelecer as similaridades com outros itens eficientemente. Este problema é comum quando um novo elemento é adicionado ao sistema. Em cenários
 	como este, é improvável que o SR forneça boas recomendações.
 	\item \textbf{Escalabilidade:} Conforme o número de usuários e itens de um sistema de recomendações cresce, o custo computacional para a identificação
 	das similaridades pode se tornar impraticável. Com uma base de milhões de usuários e itens, um algoritmo de filtragem colaborativa com complexidade O(n)
@@ -327,8 +342,6 @@ implementação de SRs \citeauthoronline{2-CFSurvey} destacam:
 
 Os problemas acima identificados são exemplos que demonstram a não trivialidade de implementação de um SR. Além disto existem outros desafios que precisam ser
 superados neste tipo de sistema, relativos a escolhas de tecnologia, arquitetura, modelagem e de abordagens técnicas. 
-
-As características elencadas demonstram que implementar um sistema de recomendação em uma aplicação é uma tarefa complexa e trabalhosa.
 
 \section{Proposta}
 Este trabalho propõe o desenvolvimento de um sistema genérico de recomendações baseado na técnica "Filtragem Colaborativa". Este sistema será utilizado como uma ferramenta
@@ -350,13 +363,38 @@ de recomendações em qualquer tipo de aplicação, com o menor custo de impleme
 com a inserção de dados e consumo das recomendações. Tornar a implementação da funcionalidade de recomendações mais trivial permitirá que sistemas de menor porte
 possam oferecer este tipo de recurso.
 
-A segunda motivação é relacionada à capacidade de troca dos algorítmos utilizados pela ferramenta. Este recurso
+A segunda motivação esta relacionada a capacidade de troca dos algorítmos utilizados pela ferramenta. Este recurso
 permitirá a análise da eficiência dos algoritmos em diferentes cenários.
 
 \section{Objetivos}
+Os objetivos do projeto foram divididos em macro objetivos, que caracterizam os principais requisitos do projeto, e micro objetivos, que caracterizam as principais
+entregas que compõem os macro objetivos.
+
+\subsection{Macro Objetivos}
+\begin{itemize}
+	\item Ser capaz de coletar dados padronizados de uma fonte preenchida pelos clientes do sistema.
+	\item Ser aplicável a qualquer tipo de aplicação cliente.
+	\item Permitir a escolha dos seguintes componentes do sistema via configuração: Índice de Similaridade, Técnica de Cluster e o Algoritmo de Seleção das Recomendações. 
+	\item Estabelecer indicadores de eficiência para diferentes configurações do item anterior e desenvolver uma análise comparatória entre elas.
+\end{itemize}
+
+\subsection{Micro Objetivos}
+\begin{itemize}
+	\item Estabelecer uma abstração dos elementos comuns em sistemas de recomendação.
+	\item Definir uma interface de dados a ser utilizada pelo cliente ao fornecer dados para a ferramenta.
+	\item Estabelecer regras de leitura dos dados fornecidos pelo cliente.
+	\item Projetar o sistema de maneira modular.
+	\item Implementar ao menos duas opções para cada componente cambiável do sistema.
+	\item Implementar uma API Rest com autenticação para o consumo das recomendações.
+\end{itemize}
 
 \section{Estrutura do Documento}
+Este documento está dividido da seguinte maneira: O capítulo "Revisão Bibliográfica" apresenta uma revisão das principais referencias da bibliografia utilizada na montagem da proposta.
+Cada seção deste capítulo se refere a um artigo ou livro utilizado. Ainda neste capítulo a seção "Ferramentas Relacionadas" apresenta os resultados da pesquisa por software existentes 
+que tenham objetivos semelhantes aos estabelecidos nesta proposta.
 
+O Capítulo "Metodologia" contém detalhes a cerca do que foi planejado para a parte técnica do projeto, detalhendo e justificando as técnicas utilizadas para a construção da ferramenta
+projetada.
 
 \chapter{Revisão Bibliográfica}
 Neste capítulo serão revisados os materiais utilizados como fonte de pesquisa e referência para a elaboração desta proposta. Serão analisados também softwares 
@@ -432,91 +470,165 @@ O material acadêmico do professor e autor Michael J. Greenacre apresenta as var
 	Isto significa que os dados também precisam ser normalizados antes do cálculo de distância. 
 \end{itemize}
 
-\section{Ferramentas Semelhantes}
-A partir de buscas na internet a seguinte tabela foi gerada comparando softwares de recomendação com o projeto proposto.
+\section{Ferramentas Relacionadas}
+A partir de buscas na internet diferentes ferramentas com propostas a cerca de recomendações foram encontradas. Esta seção irá elencar e comparar estes softwares com o projeto proposto.
+
+\begin{itemize}
+	\item \textbf{Episerver:}\footnote{https://www.episerver.com} Enquadra-se no modelo de softwares como serviços. Possui foco em ecommerce e oferece diferentes pacotes com diferente funcionalidades. O 
+	\textit{website} do produto não revela muitos detalhes, sugerindo que o Episerver é um conjunto de soluções para \textit{e-commerce} que vão além das recomendações. Estas soluções são acopladas em
+	sistemas de venda digital e executam uma série de atividades. O Módulo Episerver Perform se propõe a coletar dados dos usuários, importar o catálogo de produtos e entregar recomendações diretamente
+	ao usuário. Se comparado com a proposta genérica apresentada por este documento, notam-se algumas diferenças. A primeira delas está na coleta de dados, que no sistema Episerver é uma responsabilidade 
+	do sistema. A ferramenta proposta aborda passivamente esta questão, apenas recebendo as informações dos sistemas clientes. Além disso, a ferramenta não é responsável por exibir as recomendações ao usuário
+	e nem conhece a estrutura dos dados que recomenda. Desta maneira mantém-se a independencia do domínio, característica aparentemente não presente no software Episerver.
+	\item \textbf{Strands:}\footnote{http://retail.strands.com/products/product-recommendations/} Semelhantemente ao software anterior, este produto tem foco em \textit{e-commerce} e assume o pepel de coletor
+	e exibidor das recomendações. Mais uma vez, devido ao fato de ser um sistema proprietário no modelo SaS, pouca informação sobre o funcionamento da plataforma é disponibilizada. Aparentemente, scripts
+	de coleta de dados comportamentais são inseridos na loja virtual para identificar os padrões de navegação dos clientes. A entrega das recomendações é feita através da inserção de widgets que exibem
+	produtos préviamente importados. Se comparado com a proposta nota-se que o sistema Strands não tem a pretenção de se manter abstrato ao domínio nem de oferecer diferentes implementações de algorítmos para escolha.
+	Estas características são o que distinguem o produto citado do projeto proposto.
+	\item \textbf{SLI Learning Recommendations:}\footnote{https://www.sli-systems.com/solutions/product-recommendation} Semelhantemente aos outros sistemas apresentados, o \textit{SLI Learning Recomendations} 
+	tem por foco \textit{e-commerces} e funciona coletando dados através da inserção de scripts de coleta de dados na loja. Este sistema difere-se em considerar questões inerentes ao domínio das vendas digitais
+	para efetuar recomendações. Os itens recomendados consideram fatores como venda cruzada, aumento da média de valor dos carrinhos, etapas do processo de compra e conversão de possíveis clientes. Além disto 
+	este sistema possui uma API que permite adicionar recomendações em outros elementos como emails. O projeto proposto se difere por considerar exclusivamente os padrões comportamentais dos usuários e a
+	categorização dos itens para efetuar as recomendações. Outro ponto de divergência é a abstração genérica da ferramenta projetada. 
+	\item \textbf{ActionML Universal Recommender:}\footnote{https://github.com/actionml/universal-recommender} O projeto \textit{Universal Recommender} se assemelha à ferramenta proposta em manter-se abstraído
+	do domínio a fim de se tornar genérico. Este sistema funciona com base no conceito de eventos, ocorrencias na aplicação cliente que podem ser utilizadas como indicadores de preferência. Os eventos são
+	classificados em dois tipos de acordo com uma modelagem prévia: Eventos primários e secundários. Um evento primário é o indicador de interesse mais forte na aplicação cliente e tem mais influência nas
+	recomendações. Os eventos secundários podem ser quaisquer outras ações registradas no cliente que indiquem interesse do usuário. O sistema utiliza o algorítmo \textit{Correlation Cross-Ocorrence} para 
+	gerar as recomendações. Das ferramentas apresentadas é a que mais se aproxima da proposta apresentada. Dentre as diferenças se destacam a necessidade de se modelar minimamente os eventos que serão inseridos
+	no sistema, o consumo das recomendações, feito através de queries e não de uma API, e a abordagem híbrida utilizada. Sobre este último item, o \textit{Universal Recommeder} permite que dados dos itens sejam 
+	inseridos no sistema enquanto que a ferramenta proposta permite apenas a categorização dos itens com o objetivo de melhorar a eficiência em cenários de dados esparços.
+\end{itemize} 
 
 \chapter{Metodologia}
 Neste capítulo serão detalhados o planejamento para o decorrer do projeto nos seguintes assuntos: Abstração do Modelo, Técnicas e Algoritmos, Tecnologias e
 Modelagem do Sistema.
 
 \section{Abstração do Modelo}
-O desenvolvimento da ferramenta proposta será baseado na construção de uma abstração que possa representar os elementos mais comuns de sistemas de recomendações.
-Esta abstração deve ser capaz de representar elementos de qualquer domínio, mantendo a capacidade de identifica-los na aplicação cliente. 
+O desenvolvimento do projeto será baseado na construção de uma abstração que possa representar os elementos mais comuns dos sistemas de recomendações.
+Esta abstração deve ser capaz de representar elementos de qualquer domínio, mantendo a capacidade de identifica-los na aplicação cliente. Destes pressupostos estabeleceu-se o seguinte protótipo de abstração:
 
-
-\begin{table}[hbt] %% EXEMPLO DE TABELA FEITA POR MEIO DO http://www.tablesgenerator.com/
 \begin{center}
-\caption{Nome da tabela.} %% LEGENDA (REPARE QUE ELE JÁ COLOCA A NUMERAÇÃO AUTOMATICAMENTE E JÁ ADICIONA À LISTA DE TABELAS
-\begin{tabular}{|l|l|lll}
-\cline{1-2}
-Produto & Valor   &  &  &  \\ \cline{1-2}\cline{1-2}
-sdadasd & asdasd  &  &  &  \\ \cline{1-2}
-asdasd  & asasdas &  &  &  \\ \cline{1-2}
-dsad    & asdas   &  &  &  \\ \cline{1-2}
-\end{tabular}
+	\begin{table}[hbt]
+		\caption{Descrição dos Elementos da Abstração}
+		\begin{tabular}{ | c | c | c | c |}
+		  \hline
+			  \thead{Elemento} & \thead{Descrição} & \thead{Formato} & \thead{Escopo} \\
+		  \hline
+			  Ator &  \makecell{Representa algo ou alguém que \\executa atividades no cliente}  & ID Entidade + ID Elemento & Cliente  \\
+		  \hline
+			  Ação &  \makecell{Representa uma funcionalidade \\ou atividade que atores podem \\executar no cliente}  & ID Único & Sistema  \\
+		  \hline
+			  Objeto &  \makecell{Alvo de uma Ação executada \\por um Ator no cliente}  & ID Entidade + ID Elemento & Cliente  \\
+		  \hline
+			  Categoria &  \makecell{Permite categorizar os objetos}  & ID Único & Sistema  \\
+		  \hline
+		\end{tabular}
+	\end{table}
 \end{center}
-\end{table}
 
-A expressão \textit{\textbf{``Modelo canônico''}} é utilizada para indicar que \abnTeX\ não é
-modelo específico de nenhuma universidade ou instituição, mas que implementa tão
-somente os requisitos das normas da ABNT. Uma lista completa das normas
-observadas pelo \abnTeX\ é apresentada em \citeonline{abntex2classe}. %% USE \citeonline PARA CITAR NO MEIO DA FRASE
+Para todos os elementos da abstração descrita na tabela acima a ferramenta recebe um identificador, sem saber se o elemento existe ou não no cliente. Para os elementos pertencentes ao escopo dos clientes os 
+identificadores são formados por dois valores, o id da entidade e o id do elemento. Esta chave composta é utilizada apenas para que o cliente identificar os itens quando consumirem as recomendações.
 
-\begin{figure} [hbt] 
-%% hbt SIGNIFICA QUE ELE PRIMEIRO VAI TENTAR COLOCAR A IMAGEM NESTE LUGAR (h de "here"). SENÃO DER, ELE TENTA COLOCAR MAIS PRA BAIXO (b de "bottom"). SENÃO ELE COLOCA MAIS PARA CIMA (t de "top").
-\label{figura1} 
-%% LABEL SERVE PARA VOCÊ REFERENCIAR A FIGURA NO MEIO DO TEXTO (VEJA LINHA 330: \ref{figura1}). ASSIM VOCÊ NÃO PERDE A REFERÊNCIA QUANDO MUDA A FIGURA DE LUGAR
-\caption{Exemplo de figura.}
-\includegraphics[width=0.95\textwidth]{nemo.jpeg} %% PARA COLOCAR O ARQUIVO DA IMAGEM NO SHARELATEX, CLIQUE NO ÍCONE QUE PARECE UMA FLECHINHA PARA CIMA (ATUALIZAR), CLIQUE EM UPLOAD E PROCURE A IMAGEM EM SEU COMPUTADOR.
+Os logs de atividade preenchidos pelos clientes devem conter, num formato fixo, os dados acima para representar um histórico de atividades de seus atores. Para as Categorias o sistema irá permitir o cadastro 
+prévio via API. Isto será permitido para que, também através da API, seja possível informar índices de proxímidade entre categorias de objetos. Em cenários de dados esparsos, as recomendações serão feitas considerando
+os itens das categorias mais próximas.
+
+\section{Técnicas e Algoritmos}
+Esta seção destina-se a detalhar os algorítmos que serão implementados no projeto assim como justificar suas ecolhas.
+
+\subsection{Algoritmos de Similaridade}
+Os dados utilizados pela ferramenta para identificar padrões comportamentais serão dados de contagem. A ferramenta irá contabilizar a quantidade de ocorrencias de cada combinação Ator x Ação x Objeto, identificando
+os comportamentos mais recorrentes dos atores nos sistemas clientes. Para identificar as similaridades a partir destes dados serão implementados os algoritmos:
+
+\begin{itemize}
+	\item \textbf{Distância Euclidiana:} Calcula a distância absoluta entre dois vetores, quanto mais próximos maiores as semelhanças entre os dados. Por ser o algorítmo mais simples será utiliado como base para as comparações.
+	\item \textbf{Distância Euclidiana Normalizada:} Normaliza os dados antes de efetuar o cálculo da distância. A normalização consiste em reduzir a influência das taxas de ocorrencia dos itens contabilizados, isto por que a contagem de um item
+	pode ser mais alta por possuir uma taxa de ocorrencia maior que a dos outros. Outra etapa da normalizacão é efetuar o cálculo euclidiano não sobre valores absolutos, mas sobre a porcentagem de ocorrencias de um item em relação ao total de ocorrencias.
+	\item \textbf{Distância Euclidiana Normalizada com Relevância:}Este algorítmo, além de efetuar as normalizações citadas no item anterior, leva em consideração o índice de relevância do objeto para o ator. Este índice varia entre 0 e 1 e é extraído a 
+	partir da recorrencia do objeto no histórico do ator assim como a recorrencia da categoria do objeto em questão.
+	\item \textbf{Algorítmos de Pearson}: Diferentemente da distãncia euclidiana que identifica a distância entre dois vetores, o índice de pearson índica a tendencia de variação entre duas variáveis. Quanto mais próximas e proporcionais são as flutuações 
+	das variáveis, maior a similaridade entre elas. Serão implementadas cada variação da distância euclidiana citadas acima porém utilizando o índice de Pearson.
+	\item 
+\end{itemize}
+
+Através dos índices de similaridade a ferramenta estabelece uma matriz que contém a similaridade entre cada ator do sistema.
+
+\subsection{Algoritmo de Clusterização}
+A partir de uma matriz de similaridades entre atores é gerado um modelo de \textit{clusters} que será utilizado para persistência e para consulta dos usuários com base na proximidade. Os algorítmos escolhidos para montagem dos clusters foram: 
+Clusterização Hierárquica e Clusterização em Grafos. 
+
+Algorítmos de Clusterização Hierárquica se caracterizam por montar uma estrutura de árvore em que as folhas são os itens (Atores) e cada nível acima consiste num cluster formado pelos dois nós abaixo mais próximos. Nestes algorítmos a raíz da árvore é
+único cluster contendo todos os outros elementos da árvore.
+
+\begin{figure}[hbt]
+	\label{Árvore de Clusters Hierárquicos}
+	\caption{Árvore de Clusters Hierárquicos}
+	\includegraphics{hierarquical-clustering-01.png}
 \end{figure}
 
 
-Sinta-se convidado a participar do projeto \abnTeX! Acesse o site do projeto em
-\url{http://abntex2.googlecode.com/} (Figura \ref{figura1}). Também fique livre para conhecer,
-estudar, alterar e redistribuir o trabalho do \abnTeX, desde que os arquivos
-modificados tenham seus nomes alterados e que os créditos sejam dados aos
-autores originais, nos termos da ``The \LaTeX\ Project Public
-License''\footnote{\url{http://www.latex-project.org/lppl.txt}}.
 
-Encorajamos que sejam realizadas customizações específicas deste exemplo para
-universidades e outras instituições --- como capas, folhas de rosto, etc.
-Porém, recomendamos que ao invés de se alterar diretamente os arquivos do
-\abnTeX, distribua-se arquivos com as respectivas customizações.
-Isso permite que futuras versões do \abnTeX~não se tornem automaticamente
-incompatíveis com as customizações promovidas. Consulte
-\citeonline{abntex2-wiki-como-customizar} par mais informações.
 
-Este documento deve ser utilizado como complemento dos manuais do \abnTeX\ 
-\cite{abntex2classe,abntex2cite,abntex2cite-alf} e da classe \textsf{memoir}
-\cite{memoir}. 
+% A expressão \textit{\textbf{``Modelo canônico''}} é utilizada para indicar que \abnTeX\ não é
+% modelo específico de nenhuma universidade ou instituição, mas que implementa tão
+% somente os requisitos das normas da ABNT. Uma lista completa das normas
+% observadas pelo \abnTeX\ é apresentada em \citeonline{abntex2classe}. %% USE \citeonline PARA CITAR NO MEIO DA FRASE
 
-Equipe \abnTeX 
+% \begin{figure} [hbt] 
+% %% hbt SIGNIFICA QUE ELE PRIMEIRO VAI TENTAR COLOCAR A IMAGEM NESTE LUGAR (h de "here"). SENÃO DER, ELE TENTA COLOCAR MAIS PRA BAIXO (b de "bottom"). SENÃO ELE COLOCA MAIS PARA CIMA (t de "top").
+% \label{figura1} 
+% %% LABEL SERVE PARA VOCÊ REFERENCIAR A FIGURA NO MEIO DO TEXTO (VEJA LINHA 330: \ref{figura1}). ASSIM VOCÊ NÃO PERDE A REFERÊNCIA QUANDO MUDA A FIGURA DE LUGAR
+% \caption{Exemplo de figura.}
+% \includegraphics[width=0.95\textwidth]{nemo.jpeg} %% PARA COLOCAR O ARQUIVO DA IMAGEM NO SHARELATEX, CLIQUE NO ÍCONE QUE PARECE UMA FLECHINHA PARA CIMA (ATUALIZAR), CLIQUE EM UPLOAD E PROCURE A IMAGEM EM SEU COMPUTADOR.
+% \end{figure}
 
-Lauro César Araujo
+
+% Sinta-se convidado a participar do projeto \abnTeX! Acesse o site do projeto em
+% \url{http://abntex2.googlecode.com/} (Figura \ref{figura1}). Também fique livre para conhecer,
+% estudar, alterar e redistribuir o trabalho do \abnTeX, desde que os arquivos
+% modificados tenham seus nomes alterados e que os créditos sejam dados aos
+% autores originais, nos termos da ``The \LaTeX\ Project Public
+% License''\footnote{\url{http://www.latex-project.org/lppl.txt}}.
+
+% Encorajamos que sejam realizadas customizações específicas deste exemplo para
+% universidades e outras instituições --- como capas, folhas de rosto, etc.
+% Porém, recomendamos que ao invés de se alterar diretamente os arquivos do
+% \abnTeX, distribua-se arquivos com as respectivas customizações.
+% Isso permite que futuras versões do \abnTeX~não se tornem automaticamente
+% incompatíveis com as customizações promovidas. Consulte
+% \citeonline{abntex2-wiki-como-customizar} par mais informações.
+
+% Este documento deve ser utilizado como complemento dos manuais do \abnTeX\ 
+% \cite{abntex2classe,abntex2cite,abntex2cite-alf} e da classe \textsf{memoir}
+% \cite{memoir}. 
+
+% Equipe \abnTeX 
+
+% Lauro César Araujo
 
 
 % ---
 % Capitulo de revisão de literatura
 % ---
-\chapter{Lorem ipsum dolor sit amet}
+% \chapter{Lorem ipsum dolor sit amet}
 
 % --- Seção dentro do capítulo
-\section{Aliquam vestibulum fringilla lorem}
+% \section{Aliquam vestibulum fringilla lorem}
 % ---
 
-\lipsum[1]  %% COMANDO QUE COLOCA TEXTO AUTOMÁTICO, SUBSTITUA POR SEU PRÓPRIO TEXTO
+% \lipsum[1]  %% COMANDO QUE COLOCA TEXTO AUTOMÁTICO, SUBSTITUA POR SEU PRÓPRIO TEXTO
 
-\lipsum[2-3]
+% \lipsum[2-3]
 
 
 
 % ---
 % Conclusão
 % ---
-\chapter*[Conclusão]{Conclusão}
+% \chapter*[Conclusão]{Conclusão}
 \addcontentsline{toc}{chapter}{Conclusão}
 
-\lipsum[31-33]
+% \lipsum[31-33]
 
 
 % ----------------------------------------------------------
@@ -545,24 +657,24 @@ Lauro César Araujo
 % ---
 % Inicia os apêndices
 % ---
-\begin{apendicesenv}
+% \begin{apendicesenv}
 
 % Imprime uma página indicando o início dos apêndices
-\partapendices
+% \partapendices
 
 % ----------------------------------------------------------
-\chapter{Quisque libero justo}
+% \chapter{Quisque libero justo}
 % ----------------------------------------------------------
 
-\lipsum[50]
+% \lipsum[50]
 
 % ----------------------------------------------------------
-\chapter{Nullam elementum urna vel imperdiet sodales elit ipsum pharetra ligula
-ac pretium ante justo a nulla curabitur tristique arcu eu metus}
+% \chapter{Nullam elementum urna vel imperdiet sodales elit ipsum pharetra ligula
+% ac pretium ante justo a nulla curabitur tristique arcu eu metus}
 % ----------------------------------------------------------
-\lipsum[55-57]
+% \lipsum[55-57]
 
-\end{apendicesenv}
+% \end{apendicesenv}
 % ---
 
 
@@ -573,30 +685,30 @@ ac pretium ante justo a nulla curabitur tristique arcu eu metus}
 % ---
 % Inicia os anexos
 % ---
-\begin{anexosenv}
+% \begin{anexosenv}
 
-% Imprime uma página indicando o início dos anexos
-\partanexos
+% % Imprime uma página indicando o início dos anexos
+% \partanexos
 
-% ---
-\chapter{Morbi ultrices rutrum lorem.}
-% ---
-\lipsum[30]
+% % ---
+% \chapter{Morbi ultrices rutrum lorem.}
+% % ---
+% \lipsum[30]
 
-% ---
-\chapter{Cras non urna sed feugiat cum sociis natoque penatibus et magnis dis
-parturient montes nascetur ridiculus mus}
-% ---
+% % ---
+% \chapter{Cras non urna sed feugiat cum sociis natoque penatibus et magnis dis
+% parturient montes nascetur ridiculus mus}
+% % ---
 
-\lipsum[31]
+% \lipsum[31]
 
-% ---
-\chapter{Fusce facilisis lacinia dui}
-% ---
+% % ---
+% \chapter{Fusce facilisis lacinia dui}
+% % ---
 
-\lipsum[32]
+% \lipsum[32]
 
-\end{anexosenv}
+% \end{anexosenv}
 
 %---------------------------------------------------------------------
 % INDICE REMISSIVO
@@ -607,51 +719,51 @@ parturient montes nascetur ridiculus mus}
 %---------------------------------------------------------------------
 % Formulário de Identificação (opcional)
 %---------------------------------------------------------------------
-\chapter*[Formulário de Identificação]{Formulário de Identificação}
-\addcontentsline{toc}{chapter}{Exemplo de Formulário de Identificação}
-\label{formulado-identificacao}
+% \chapter*[Formulário de Identificação]{Formulário de Identificação}
+% \addcontentsline{toc}{chapter}{Exemplo de Formulário de Identificação}
+% \label{formulado-identificacao}
 
-Exemplo de Formulário de Identificação, compatível com o Anexo A (informativo)
-da ABNT NBR 10719:2011. Este formulário não é um anexo. Conforme definido na
-norma, ele é o último elemento pós-textual e opcional do relatório.
+% Exemplo de Formulário de Identificação, compatível com o Anexo A (informativo)
+% da ABNT NBR 10719:2011. Este formulário não é um anexo. Conforme definido na
+% norma, ele é o último elemento pós-textual e opcional do relatório.
 
-\bigskip
+% \bigskip
 
-\begin{tabular}{|p{9cm}|p{5cm}|} %% EXEMPLO DE TABELA MAIS COMPLEXA
-\hline
-\multicolumn{2}{|c|}{\textbf{\large Dados do Relatório Técnico e/ou científico}}\\
-\hline
-\multirow{4}{10cm}[24pt]{Título e subtítulo}& Classificação de segurança\\
-                   & \\
-                   \cline{2-2}
-                   & No.\\
-                   & \\
+% \begin{tabular}{|p{9cm}|p{5cm}|} %% EXEMPLO DE TABELA MAIS COMPLEXA
+% \hline
+% \multicolumn{2}{|c|}{\textbf{\large Dados do Relatório Técnico e/ou científico}}\\
+% \hline
+% \multirow{4}{10cm}[24pt]{Título e subtítulo}& Classificação de segurança\\
+%                    & \\
+%                    \cline{2-2}
+%                    & No.\\
+%                    & \\
 				
-\hline
-Tipo de relatório & Data\\
-\hline
-Título do projeto/programa/plano & No.\\
-\hline
-\multicolumn{2}{|l|}{Autor(es)} \\
-\hline
-\multicolumn{2}{|l|}{Instituição executora e endereço completo} \\
-\hline
-\multicolumn{2}{|l|}{Instituição patrocinadora e endereço completo} \\
-\hline
-\multicolumn{2}{|l|}{Resumo}\\[3cm]
-\hline
-\multicolumn{2}{|l|}{Palavras-chave/descritores}\\
-\hline
-\multicolumn{2}{|l|}{
-Edição \hfill No. de páginas \hfill No. do volume \hfill Nº de classificação \phantom{XXXX}} \\
-\hline
-\multicolumn{2}{|l|}{
-ISSN \hfill \hfill Tiragem \hfill Preço \phantom{XXXXXXXX}} \\
-\hline
-\multicolumn{2}{|l|}{Distribuidor} \\
-\hline
-\multicolumn{2}{|l|}{Observações/notas}\\[3cm]
-\hline
-\end{tabular}
+% \hline
+% Tipo de relatório & Data\\
+% \hline
+% Título do projeto/programa/plano & No.\\
+% \hline
+% \multicolumn{2}{|l|}{Autor(es)} \\
+% \hline
+% \multicolumn{2}{|l|}{Instituição executora e endereço completo} \\
+% \hline
+% \multicolumn{2}{|l|}{Instituição patrocinadora e endereço completo} \\
+% \hline
+% \multicolumn{2}{|l|}{Resumo}\\[3cm]
+% \hline
+% \multicolumn{2}{|l|}{Palavras-chave/descritores}\\
+% \hline
+% \multicolumn{2}{|l|}{
+% Edição \hfill No. de páginas \hfill No. do volume \hfill Nº de classificação \phantom{XXXX}} \\
+% \hline
+% \multicolumn{2}{|l|}{
+% ISSN \hfill \hfill Tiragem \hfill Preço \phantom{XXXXXXXX}} \\
+% \hline
+% \multicolumn{2}{|l|}{Distribuidor} \\
+% \hline
+% \multicolumn{2}{|l|}{Observações/notas}\\[3cm]
+% \hline
+% \end{tabular}
 
 \end{document}
