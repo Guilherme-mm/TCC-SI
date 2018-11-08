@@ -5,23 +5,12 @@
 \providecommand{\abntbstabout}[1]{}
 \abntbstabout{v<VERSION> }
 
-\bibitem[Associa{\c c}\~ao Brasileira de Normas T\'ecnicas 2003]{NBR6028:2003}
-\abntrefinfo{ABNT}{ABNT}{2003}
-{ASSOCIA{\c C}\~AO BRASILEIRA DE NORMAS T\'ECNICAS. \emph{{NBR} 6028}: Resumo -
-  apresenta{\c c}{\~a}o.
-Rio de Janeiro, 2003. 2~p.}
-
 \bibitem[Das et al. 2007]{5-GoogleCollaborativeFiltering}
 \abntrefinfo{Das et al.}{DAS et al.}{2007}
 {DAS, A. et al. Google news personalization: Scalable online collaborative
   filtering.
 \emph{Proceedings of the 16th International Conference on World Wide Web},
   p.~9, 2007.}
-
-\bibitem[Fulano 1995]{fulano}
-\abntrefinfo{Fulano}{FULANO}{1995}
-{FULANO, J. d.~S. Fulanologia aplicada à aq{\"u}icultura.
-\emph{Jaboticabal: Funep}, 1995.}
 
 \bibitem[Greenacre 2008]{7-MeasuresBetweenSamples}
 \abntrefinfo{Greenacre}{GREENACRE}{2008}

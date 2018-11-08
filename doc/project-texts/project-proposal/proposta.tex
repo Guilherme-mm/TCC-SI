@@ -234,14 +234,7 @@
 
 % resumo na língua vernácula (obrigatório)
 \begin{resumo} %% AQUI COMEÇA A PÁGINA DE RESUMO
- Segundo a \citeonline{NBR6028:2003}, o resumo deve ressaltar o
- objetivo, o método, os resultados e as conclusões do documento. A ordem e a extensão
- destes itens dependem do tipo de resumo (informativo ou indicativo) e do
- tratamento que cada item recebe no documento original. O resumo deve ser
- precedido da referência do documento, com exceção do resumo inserido no
- próprio documento. (\ldots) As palavras-chave devem figurar logo abaixo do
- resumo, antecedidas da expressão Palavras-chave:, separadas entre si por
- ponto e finalizadas também por ponto. Bla bla bla bla bla \cite{fulano} %% EXEMPLO DE CITAÇÃO (vá em abntex2-modelo-references.bib)
+ FAZER
 
  \vspace{\onelineskip}
     
@@ -501,7 +494,7 @@ A partir de buscas na internet diferentes ferramentas com propostas a cerca de r
 
 \chapter{Metodologia}
 Neste capítulo serão detalhados o planejamento para o decorrer do projeto nos seguintes assuntos: Abstração do Modelo, Técnicas e Algoritmos, Tecnologias e
-Modelagem do Sistema.
+Arquitetura do Sistema.
 
 \section{Abstração do Modelo}
 O desenvolvimento do projeto será baseado na construção de uma abstração que possa representar os elementos mais comuns dos sistemas de recomendações.
@@ -548,7 +541,6 @@ os comportamentos mais recorrentes dos atores nos sistemas clientes. Para identi
 	partir da recorrencia do objeto no histórico do ator assim como a recorrencia da categoria do objeto em questão.
 	\item \textbf{Algorítmos de Pearson}: Diferentemente da distãncia euclidiana que identifica a distância entre dois vetores, o índice de pearson índica a tendencia de variação entre duas variáveis. Quanto mais próximas e proporcionais são as flutuações 
 	das variáveis, maior a similaridade entre elas. Serão implementadas cada variação da distância euclidiana citadas acima porém utilizando o índice de Pearson.
-	\item 
 \end{itemize}
 
 Através dos índices de similaridade a ferramenta estabelece uma matriz que contém a similaridade entre cada ator do sistema.
@@ -557,8 +549,8 @@ Através dos índices de similaridade a ferramenta estabelece uma matriz que con
 A partir de uma matriz de similaridades entre atores é gerado um modelo de \textit{clusters} que será utilizado para persistência e para consulta dos usuários com base na proximidade. Os algorítmos escolhidos para montagem dos clusters foram: 
 Clusterização Hierárquica e Clusterização em Grafos. 
 
-Algorítmos de Clusterização Hierárquica se caracterizam por montar uma estrutura de árvore em que as folhas são os itens (Atores) e cada nível acima consiste num cluster formado pelos dois nós abaixo mais próximos. Nestes algorítmos a raíz da árvore é
-único cluster contendo todos os outros elementos da árvore.
+Algorítmos de Clusterização Hierárquica se caracterizam por montar uma estrutura de árvore em que as folhas são os itens (Atores) e cada nível superior da hierarquia é formado por um cluster da junção dos dois nós diretamente abaixo. Nestes algorítmos a raíz da árvore é um
+único cluster contendo todos os outros nós da árvore.
 
 \begin{figure}[hbt]
 	\label{Árvore de Clusters Hierárquicos}
@@ -566,8 +558,67 @@ Algorítmos de Clusterização Hierárquica se caracterizam por montar uma estru
 	\includegraphics{hierarquical-clustering-01.png}
 \end{figure}
 
+O segundo algoritmo planejado para ser desenvolvido é o de clusterização em grafos. Neste método cada ator é representado como um nó da estrutura. Os nós mais próximos são conectados entre si com arestas que possuem pesos. Para o projeto, o peso das
+arestas pode ser baseado no índice de similaridade dos atores. O grafo resultante deste método possui grupos de nós com várias conexões entre si, porém com poucas conexões com nós de outras seções. Estes grupos caracterizam os clusters.
 
+A partir das estruturas apresentadas acima, algorítmos de seleção são utilizados para se encontrar os usuários mais próximos.
 
+\section{Tecnologias}
+Partindo dos objetivos do projeto a seguinte \textit{stack} de desenvolvimento será utilizada:
+
+\begin{itemize}
+	\item \textbf{Python:} A linguagem será utilizada para desenvolver o coletor de dados, a API Rest e os algorítmos de similaridade.
+	\item \textbf{MySQL:} O SGBD será utilizado para armazenamento dos históricos comportamentais extraídos dos logs dos clientes.
+	\item \textbf{Redis:} Banco de dados em memória utilizado para cache de operações em prol de performance.
+	\item \textbf{Neo4J:} Base de dados para armazenamento de grafos.
+	\item \textbf{Docker:} Sistema de conteiners para gerenciamento de infraestrutura.
+	\item \textbf{Git:} Sistema de controle de versão do projeto.
+\end{itemize}
+
+\section{Arquitetura do Sistema}
+Esta seção apresenta o protótipo inicial da arquitetura do sistema. Serão descritos os papéis de cada componente do modelo.
+\begin{figure}[hbt]
+	\label{Arquitetura de Componentes do Sistema}
+	\caption{Arquitetura de Componentes do Sistema}
+	\includegraphics[width=160mm]{system-architecture.png}
+\end{figure}
+
+Na imagem acima os componentes na cor verde são os módulos e serviços que estabelecem interfaces de comunicação com as aplicações clientes. O agente de coleta de dados (\textit{Data Collection Agent}) é o módulo responsável por iterar sobre os
+logs extraindo os dados. Este processo de leitura é disparado pelo núcleo do sistema (\textit{Core Service}).
+O segundo elemento das interfaces de comunicação é a API que é responsável por retornar ao cliente as recomendações. A Api extrai as recomendações através do motor de seleção de recomendações. Além disto, a API também se relaciona com o banco
+de dados em memória que será utilizado para disponibilizar configurações e cache de operações.
+
+O componente central do sistema, o serviço daemon central (\textit{Core Daemon Service}), carrega a responsabilidade de manter o processo de atualização de dados em execução. Este serviço oferece ainda uma interface em CLI para configurações
+de operação. Este componente dispara o agente de coleta de dados, ativa o motor de similaridade sobre os dados coletados e repassa os índices extraídos para o motor de clusterização. Assim como a API, este componente acessa a base de dados
+em memória para ler e inserir configurações.
+
+Na camada de modelo estão presentes três motores: Motor de Similaridade, Motor de Clusterização e Motor de Seleção de Recomendações. O primeiro deles é responsável por estabelecer os índices de similaridade dos atores. O segundo, de 
+clusterização, recebe os dados gerados no motor de similaridade por intermédio do \textit{Core} e monta/atualiza a estrutura de clusters. Este componente é responsável ainda por extrair os atores por proximidade dos clusters. O último
+motor, de seleção de recomendações, seleciona objetos e ações com base nos atores retornados pelo motor de clusters. Cada um destes motores deve ser parametrizável de maneira que seja possível escolher qual algorítmo o motor irá utilizar.
+
+\section{Determinando Eficiência dos Algoritmos}
+Visto que os componentes do sistema podem ser parametrizados de forma que utilizem diferentes algorítmos um dos objetivos deste projeto é estabelecer métricas de eficiência e comparar os algorítmos.
+% TODO
+
+\chapter{Cronograma}
+A tabela abaixo apresenta o cronograma planejado para o desenvolvimento do projeto.
+\begin{table}[hbt]
+	\resizebox{\columnwidth}{!}{%
+	\begin{tabular}{lcccccccc}
+	\hline
+	\multicolumn{1}{|l|}{Atividade}       & \multicolumn{1}{l|}{Mar} & \multicolumn{1}{l|}{Abr} & \multicolumn{1}{l|}{Mai} & \multicolumn{1}{l|}{Jun} & \multicolumn{1}{l|}{Jul} & \multicolumn{1}{l|}{Set} & \multicolumn{1}{l|}{Out} & \multicolumn{1}{l|}{Nov} \\ \hline
+	Documentação de Requisitos            & X                        &                          &                          &                          &                          &                          &                          &                          \\
+	Modelagem do Sistema                  & X                        & X                        &                          &                          &                          &                          &                          &                          \\
+	Desenvolver Agente de Coleta de Dados &                          & X                        &                          &                          &                          &                          &                          &                          \\
+	Desenvolver Núcleo da Aplicação       &                          &                          & X                        &                          &                          &                          &                          &                          \\
+	Desenvolver Motor de Similaridade     &                          &                          & X                        & X                        &                          &                          &                          &                          \\
+	Desenvolver Motor de Cluster          &                          &                          &                          & X                        & X                        &                          &                          &                          \\
+	Desenvolver Motor de Coleta de Recom. &                          &                          &                          &                          &                          & X                        &                          &                          \\
+	Coletar Dados de Eficiência           &                          &                          &                          &                          &                          &                          & X                        &                          \\
+	Documentação e Monografia             & X                        & X                        & X                        & X                        & X                        & X                        & X                        & X                       
+	\end{tabular}%
+	}
+\end{table} 
 
 % A expressão \textit{\textbf{``Modelo canônico''}} é utilizada para indicar que \abnTeX\ não é
 % modelo específico de nenhuma universidade ou instituição, mas que implementa tão

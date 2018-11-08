@@ -211,6 +211,9 @@ INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/lm/ec-lmr7.tfm
 INPUT hierarquical-clustering-01.png
 INPUT ./hierarquical-clustering-01.png
 INPUT ./hierarquical-clustering-01.png
+INPUT system-architecture.png
+INPUT ./system-architecture.png
+INPUT ./system-architecture.png
 INPUT proposta.bbl
 INPUT proposta.bbl
 INPUT proposta.brf

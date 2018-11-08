@@ -19,5 +19,9 @@
 \contentsline {section}{\numberline {3.2}T\IeC {\'e}cnicas e Algoritmos}{14}{section.3.2}
 \contentsline {subsection}{\numberline {3.2.1}Algoritmos de Similaridade}{14}{subsection.3.2.1}
 \contentsline {subsection}{\numberline {3.2.2}Algoritmo de Clusteriza\IeC {\c c}\IeC {\~a}o}{15}{subsection.3.2.2}
-\contentsline {chapter}{Conclus\IeC {\~a}o}{15}{figure.3.1}
-\contentsline {chapter}{Refer\^encias}{16}{chapter*.3}
+\contentsline {section}{\numberline {3.3}Tecnologias}{15}{section.3.3}
+\contentsline {section}{\numberline {3.4}Arquitetura do Sistema}{16}{section.3.4}
+\contentsline {section}{\numberline {3.5}Determinando Efici\IeC {\^e}ncia dos Algoritmos}{17}{section.3.5}
+\contentsline {chapter}{\chapternumberline {4}Cronograma}{18}{chapter.4}
+\contentsline {chapter}{Conclus\IeC {\~a}o}{18}{chapter.4}
+\contentsline {chapter}{Refer\^encias}{19}{chapter*.3}
