@@ -13,6 +13,8 @@
 \backcite {2-CFSurvey}{{8}{2.2}{section.2.2}}
 \backcite {5-GoogleCollaborativeFiltering}{{9}{2.3}{section.2.3}}
 \backcite {5-GoogleCollaborativeFiltering}{{9}{2.3}{section.2.3}}
-\backcite {5-GoogleCollaborativeFiltering}{{10}{1}{Item.1}}
+\backcite {5-GoogleCollaborativeFiltering}{{9}{1}{Item.1}}
 \backcite {7-MeasuresBetweenSamples}{{10}{2.4}{section.2.4}}
 \backcite {7-MeasuresBetweenSamples}{{10}{2.4}{section.2.4}}
+\backcite {9-CorrelationBetweenVariables}{{14}{3.2.1}{subsection.3.2.1}}
+\backcite {10-HierarchicalClusteringAnalysis}{{15}{3.2.2}{subsection.3.2.2}}
