@@ -1,19 +1,19 @@
 # Fdb version 3
-["bibtex proposta"] 1541727979 "proposta.aux" "proposta.bbl" "proposta" 1541727980
+["bibtex proposta"] 1542763268 "proposta.aux" "proposta.bbl" "proposta" 1542763577
   "./abntex2-alf.bst" 1540860659 62723 877753ab5249e6256faf986928948007 ""
   "/usr/local/texlive/2018/texmf-dist/bibtex/bib/abntex2/abntex2-options.bib" 1480098425 5396 4eb260dac60f150ae608d45252853090 ""
-  "abntex2-modelo-references.bib" 1541727671 3357 2e3f177a2932f85e945da1ae366efab1 ""
-  "proposta.aux" 1541727980 10421 75f40e9c1ca98de5112ec39d3156c28d ""
+  "abntex2-modelo-references.bib" 1541728049 3357 2e3f177a2932f85e945da1ae366efab1 ""
+  "proposta.aux" 1542763576 10396 66c088c4f85bb21b31e738ec7fa55fc7 ""
   (generated)
   "proposta.blg"
   "proposta.bbl"
-["makeindex proposta.idx"] 1541651815 "proposta.idx" "proposta.ind" "proposta" 1541727980
-  "proposta.idx" 1541727979 0 d41d8cd98f00b204e9800998ecf8427e ""
+["makeindex proposta.idx"] 1542763266 "proposta.idx" "proposta.ind" "proposta" 1542763577
+  "proposta.idx" 1542763576 0 d41d8cd98f00b204e9800998ecf8427e ""
   (generated)
-  "proposta.ilg"
   "proposta.ind"
-["pdflatex"] 1541727979 "/Users/guilhermemuller/Sources/TCC-SI/doc/project-texts/project-proposal/proposta.tex" "proposta.pdf" "proposta" 1541727980
-  "/Users/guilhermemuller/Sources/TCC-SI/doc/project-texts/project-proposal/proposta.tex" 1541727975 49326 a2eb8e213b3c42483bc97d5153b683e5 ""
+  "proposta.ilg"
+["pdflatex"] 1542763575 "/Users/guilhermemuller/Sources/TCC-SI/doc/project-texts/project-proposal/proposta.tex" "proposta.pdf" "proposta" 1542763577
+  "/Users/guilhermemuller/Sources/TCC-SI/doc/project-texts/project-proposal/proposta.tex" 1542763575 49760 39d0fbcac6d84e26927fb7513619f5b2 ""
   "/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1480098668 2375 baa924870cfb487815765f9094cf3728 ""
   "/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc" 1480098668 2405 5dcf2c1b967ee25cc46c58cd52244aed ""
   "/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc" 1480098668 2840 216e6e45ad352e2456e1149f28885bee ""
@@ -145,18 +145,18 @@
   "abntex2.cls" 1540860720 30509 d05844707f61455f3e61aba968b6557c ""
   "abntex2abrev.sty" 1540860730 5727 c33a43a7b3967d0498045b3dc997bc13 ""
   "abntex2cite.sty" 1540860743 44364 812f1fedbcbe1926b80a49a9583c675c ""
-  "hierarquical-clustering-01.png" 1541564026 103214 0fd34762a2b4b466ae03c55c71ba8cc8 ""
-  "proposta.aux" 1541727980 10421 75f40e9c1ca98de5112ec39d3156c28d ""
-  "proposta.bbl" 1541727979 2088 abbb91950ca81a394c0a87e9ba183f98 "bibtex proposta"
-  "proposta.brf" 1541727980 1110 4376ad8c62aea54da44dd42ec7de4442 ""
-  "proposta.ind" 1541651815 0 d41d8cd98f00b204e9800998ecf8427e "makeindex proposta.idx"
-  "proposta.tex" 1541727975 49326 a2eb8e213b3c42483bc97d5153b683e5 ""
-  "proposta.toc" 1541727980 2048 341e29f585a123a3c7e595774ae816d8 ""
+  "hierarquical-clustering-01.png" 1542762723 27155 439249dcebecc60488e4496385e29caf ""
+  "proposta.aux" 1542763576 10396 66c088c4f85bb21b31e738ec7fa55fc7 ""
+  "proposta.bbl" 1542763268 2088 abbb91950ca81a394c0a87e9ba183f98 "bibtex proposta"
+  "proposta.brf" 1542763576 1110 4376ad8c62aea54da44dd42ec7de4442 ""
+  "proposta.ind" 1542763266 0 d41d8cd98f00b204e9800998ecf8427e "makeindex proposta.idx"
+  "proposta.tex" 1542763575 49760 39d0fbcac6d84e26927fb7513619f5b2 ""
+  "proposta.toc" 1542763576 2048 c9c141b8428da6877ee5dea5da640e9a ""
   "system-architecture.png" 1541650312 68373 3b004a5efe79f9e78d34638832879d0c ""
   (generated)
-  "proposta.brf"
-  "proposta.aux"
-  "proposta.idx"
   "proposta.toc"
+  "proposta.idx"
   "proposta.log"
+  "proposta.brf"
   "proposta.pdf"
+  "proposta.aux"

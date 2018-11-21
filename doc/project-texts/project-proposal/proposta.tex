@@ -14,7 +14,7 @@
 %% The latest version of this license is in
 %%   http://www.latex-project.org/lppl.txt
 %% and version 1.3 or later is part of all distributions of LaTeX
-%% version 2005/12/01 or later.
+%% version 2005/12/01 or later. 
 %%
 %% This work has the LPPL maintenance status `maintained'.
 %% 
@@ -138,7 +138,7 @@
 \tipotrabalho{Relatório técnico}
 % O preambulo deve conter o tipo do trabalho, o objetivo, 
 % o nome da instituição e a área de concentração 
-\preambulo{Apresentação da proposta de projeto para trabalho de conclusão do curso de Sistemas de Informação do CEFET Nova Friburgo. O projeto propõe uma abordagem genérica para sitemas de recomendação.}
+\preambulo{Apresentação da proposta de projeto para trabalho de conclusão do curso de Sistemas de Informação do CEFET Nova Friburgo. O projeto propõe uma abordagem genérica para sistemas de recomendação.}
 % ---
 
 % ---
@@ -235,12 +235,12 @@
 % resumo na língua vernácula (obrigatório)
 \begin{resumo} %% AQUI COMEÇA A PÁGINA DE RESUMO
  Os sistemas de recomendação são amplamente utilizados para promover experiências de usuário personalizadas, 
- sendo um fator relevante na adesão e satisfação em um sistema. No entanto, as dificuldades inerentes a este tipo 
+ sendo um fator relevante para a satisfação do usuário e a adesão ao sistema. No entanto, as dificuldades inerentes a este tipo 
  de software tornam sua implementação algo não trivial. Este projeto propõe um sistema genérico de recomendações
  baseado em técnicas de filtragem colaborativa. O objetivo é facilitar que outros sistemas ofereçam recursos de 
  recomendação com custo de implementação reduzido. Outro objetivo do projeto é estabelecer uma ferramenta modular 
- que implemente diferentes algoritmos de filtragem colaborativa. Através disto será possível a análise comparatória
- de eficiência das diferentes técnicas.
+ que implemente diferentes algoritmos de filtragem colaborativa. Através disto, será possível a análise comparatória
+ de eficiência de diferentes técnicas.
 
 
  \vspace{\onelineskip}
@@ -308,15 +308,16 @@
 \chapter{Introdução} %% NOVO CAPÍTULO (REPARE QUE ELE AUTOMATICAMENTE JÁ COLOCA O NÚMERO DO CAPÍTULO E JÁ ADICIONA NO SUMÁRIO)
 
 O crescimento da internet e dos meios digitais popularizou plataformas digitais de serviços e comércio de produtos.
-O número de itens nestes sistemas pode atingir quantidade e variedade grandes o suficiente para que seja difícil o usuário 
-encontrar o que busca sem o auxílio de mecanismos de filtragem. Um desses mecanismos são os sitemas de recomendação, que através de técnicas
-de aprendizado de máquina e análise de dados buscam entregar conteúdo personalizado para os usuários. Em modelos de negócio digitais a eficiência em 
+O grande número de itens disponíveis em um  sistema, no entanto, pode acabar tornando difícil a tarefa do usuário de encontrar exatamente aquilo que busca,
+ o que evidencia a necessidade cada vez maior do emprego de mecanismos de filtragem
+. Um exemplo desses mecanismos é a aplicação de sitemas de recomendação que, através de técnicas
+de aprendizado de máquina e análise de dados, buscam entregar conteúdo personalizado para os usuários. Em modelos de negócio digitais, a eficiência em 
 oferecer informações relevantes pode ter grande impacto no sucesso do empreendimento.
 
 Os sistemas de recomendação funcionam através da coleta de informações dos usuários ou dos elementos de um sistema, processando-as e 
 identificando similaridades. Estas informações podem ser de diferentes tipos, alguns exemplos são: dados comportamentais, avaliações de usuário,
-características textuais e dados audiovisuais. O processo de identificação das similaridades assim como o método de seleção das recomendações podem 
-ser implementados com diferentes abordagens. Este trabalho propõe uma solução genérica em sistemas de recomendação utilizando técnicas de filtragem colaborativa.
+características textuais e dados audiovisuais. O processo de identificação das similaridades, assim como o método de seleção das recomendações, pode 
+ser implementado com diferentes abordagens. Este trabalho propõe uma solução genérica para sistemas de recomendação utilizando técnicas de filtragem colaborativa.
 
 Algoritmos de filtragem colaborativa funcionam organizando os usuários ou itens de um sistema em grupos com base na similaridade que possuem entre si.
 Os índices de similaridade são extraídos analisando os dados de cada usuário e item do sistema. As recomendações para um usuário são geradas observando
@@ -329,34 +330,34 @@ implementação destes softwares \citeauthoronline{2-CFSurvey} destacam:
 \begin{itemize}
 	\item \textbf{Esparsidade dos Dados:} Refere-se a necessidade do sistema de recomendações de lidar com itens cujos dados coletados ainda não são
 	suficientes para estabelecer as similaridades com outros itens eficientemente. Este problema é comum quando um novo elemento é adicionado ao sistema. Em cenários
-	como este, é improvável que o SR funcione como esperado.
+	como este, é improvável que o Sistema de Recomendação (SR) funcione como esperado.
 	\item \textbf{Escalabilidade:} Conforme o número de usuários e itens de um sistema de recomendações cresce, o custo computacional para a identificação
 	das similaridades pode se tornar impraticável. Com uma base de milhões de usuários e itens, um algoritmo de filtragem colaborativa com complexidade O(n)
 	já se torna pesado demais \cite{2-CFSurvey}. 
-	\item \textbf{Sinonímia:} Sistemas de recomendações precisam lidar com a existência de itens muito semelhantes porém com nomes ligeiramente diferentes.
+	\item \textbf{Sinonímia:} Sistemas de recomendações precisam lidar com a existência de itens muito semelhantes, porém com nomes ligeiramente diferentes.
 	\item \textbf{Ovelhas Cinzas:} Este termo se refere aos usuários com gostos que não se assemelham aos de nenhum outro grupo de usuários. O sistema deve
 	ser capaz de identificar este tipo de usuário para que ele não exerça tanta influência sobre as recomendações.
-	\item \textbf{\textit{Shilling Attack}:} Neste tipo de ataque os usuários tentam manipular as recomendações parar benefício
+	\item \textbf{\textit{Shilling Attack}:} Neste tipo de ataque, os usuários tentam manipular as recomendações parar benefício
 	próprio. Isto é feito inserindo dados propositalmente no sistema, aumentando ou diminuindo a probabilidade de um item ser recomendado. É importante que existam
 	mecanismos que evitem este tipo de manipulação de resultados num SR.
 \end{itemize}
 
-Os problemas acima identificados são exemplos que demonstram a não trivialidade de implementação de um SR. Além disto existem outros desafios que precisam ser
+Os problemas acima identificados são exemplos que demonstram a não trivialidade de implementação de um SR. Além disto, existem outros desafios que precisam ser
 superados neste tipo de sistema, relativos a escolhas de tecnologia, arquitetura, modelagem e de abordagens técnicas. 
 
 \section{Proposta}
 Este trabalho propõe o desenvolvimento de um sistema genérico de recomendações baseado na técnica "Filtragem Colaborativa". Este sistema será utilizado como uma ferramenta
-consumida por aplicações de terceiros, recebendo dados e entregando recomendações. Para satisfazer este requisito, o projeto precisa ser elaborado sobre
-uma abstração que o torne independente de domínio e de tipos de cliente. A plataforma, conforme concebida, irá ser executada paralelamente às aplicações clientes,
+consumida por aplicações de terceiros, recebendo dados e entregando recomendações. Para satisfazer este requisito, o projeto precisa ser elaborado com base em
+uma abstração que o torne independente de domínio e de tipos de cliente. A plataforma, conforme concebida, será executada paralelamente às aplicações clientes,
 encapsulando e solucionando os desafios inerentes aos SRs.
 
-Outra característica importante do projeto é ser capaz de intercambear diferentes algorítmos de filtragem colaborativa, a fim de se adequar às diferentes necessidades
+Outra característica importante do projeto é ser capaz de intercambear diferentes algoritmos de filtragem colaborativa, a fim de se adequar às diferentes necessidades
 das aplicações clientes. Esta flexibilidade tem ainda outras motivações, que serão detalhadas ao longo deste documento. 
 
-O sistema proposto será uma aplicação de \textit{CLI} e utilizará dois tipos de interface para se comunicar com os clientes. A primeira delas, utilizada para coleta 
+O sistema proposto será uma aplicação de \textit{CLI} (\textit{Command-Line Interface}) e utilizará dois tipos de interface para se comunicar com os clientes. A primeira delas, utilizada para coleta 
 de dados, será a leitura de logs de atividades gerados pela aplicação cliente e que seguem a abstração pré-definida. Esta leitura será executada em períodos 
 de tempo pré configurados. Já o consumo das recomendações será feito pela segunda interface de comunicação: uma API Rest. O papel desta API, além de entregar as
-recomendações é também o de permitir inserir dados específicos, como as categorias e as relevâncias entre elas (detalhes ao longo do documento). 
+recomendações, é também o de permitir a inserção de dados específicos, como as categorias e as relevâncias entre elas (detalhes ao longo do documento). 
 
 \section{Motivações}
 O desenvolvimento da ferramenta proposta possui duas principais motivações. A primeira delas, relacionada às dificuldades de se desenvolver um SR, é facilitar o uso
@@ -364,7 +365,7 @@ de recomendações em qualquer tipo de aplicação com o menor custo de implemen
 com a inserção de dados e consumo das recomendações. Tornar a funcionalidade de recomendações mais trivial permitirá que sistemas de menor porte
 possam oferecer este tipo de recurso.
 
-A segunda motivação esta relacionada a capacidade de troca dos algorítmos utilizados pela ferramenta. Este recurso, juntamente com métricas de eficiência,
+A segunda motivação está relacionada à capacidade de troca dos algoritmos utilizados pela ferramenta. Este recurso, juntamente com métricas de eficiência,
 permitirá a análise da eficiência dos algoritmos em diferentes cenários.
 
 \section{Objetivos}
@@ -390,19 +391,19 @@ entregas que compõem os macro objetivos.
 \end{itemize}
 
 \section{Estrutura do Documento}
-Este documento está dividido da seguinte maneira: O capítulo "Revisão Bibliográfica" apresenta uma revisão das principais referências da bibliografia utilizada na montagem da proposta.
-Cada seção deste capítulo se refere a um artigo ou livro utilizado. Ainda neste capítulo a seção "Ferramentas Relacionadas" apresenta os resultados da pesquisa por software existentes 
-que tenham objetivos semelhantes aos estabelecidos nesta proposta. O Capítulo "Metodologia" contém detalhes a cerca do que foi planejado para a parte técnica do projeto, detalhendo e justificando as técnicas utilizadas para a construção da ferramenta
-projetada.
+Este documento está dividido da seguinte maneira: o capítulo ``Revisão Bibliográfica'' apresenta uma revisão das principais referências da bibliografia utilizada na montagem da proposta.
+Cada seção deste capítulo se refere a um artigo ou livro utilizado. Ainda neste capítulo, a seção ``Ferramentas Relacionadas'' apresenta os resultados da pesquisa por softwares existentes 
+que tenham objetivos semelhantes aos estabelecidos nesta proposta. O Capítulo "Metodologia" contém detalhes acerca do que foi planejado para a parte técnica do projeto, detalhando e 
+justificando as técnicas utilizadas para a construção da ferramenta projetada.
 
 \chapter{Revisão Bibliográfica}
 Neste capítulo serão revisados os materiais utilizados como fonte de pesquisa e referência para a elaboração desta proposta. Serão analisados também softwares 
 existentes no mercado e suas diferenças para a ferramenta deste documento.
 
 \section{\citeonline{1-Oreilly}}
-O livro de \citeauthoronline{1-Oreilly} aborda teoria e prática de diversos tópicos relacionados a sistemas de recomendações. Dentre os temas tratados 
-a Filtragem Colaborativa é definida como uma aplicação de um conceito conhecido como Inteligência Coletiva. Este termo se refere a informações que são derivadas
-de um coletivo de indivíduos. No seu conceito mais básico, técnicas de CF funcionam identificando usuários com característica ou gostos semelhantes entre uma base
+O livro de \citeauthoronline{1-Oreilly} aborda teoria e prática de diversos tópicos relacionados a sistemas de recomendações. Dentre os temas tratados, 
+a Filtragem Colaborativa (FC) é definida como uma aplicação de um conceito conhecido como Inteligência Coletiva. Este termo se refere a informações que são derivadas
+de um coletivo de indivíduos. No seu conceito mais básico, técnicas de FC funcionam identificando usuários com características ou gostos semelhantes entre uma base
 de usuários \cite{1-Oreilly}.
 
 Entre exemplos e definições \citeauthoronline{1-Oreilly} estabelece um fluxo básico para o processo de recomendação, decorrido em três etapas. A primeira etapa 
@@ -412,49 +413,49 @@ similaridade entre cada usuário do sistema, estabelecendo uma matriz "de-para".
 usuários mais similares e deles extrair como recomendações os itens com maior relevância. A relevância de um item pode ser calculada de diferentes maneiras.
 
 Outro assunto abordado pelo livro é o uso de \textit{clusters} para estabelecer os grupos de usuários e extrair os indivíduos de maior semelhança. Esta técnica 
-foi escolhida para o projeto como forma de persistir as relações entre usuários extraidas das aplicações clientes.
+foi escolhida para o projeto como forma de persistir as relações entre usuários extraídas das aplicações clientes.
 
 \section{\citeonline{2-CFSurvey}}
-O artigo de \citeauthoronline{2-CFSurvey} apresenta uma revisão das principais tecnologias e métodos utilizados em sistemas de recomendação. O trabalho foi
-importante para introduzir os principais conceitos que cercam o tema da filtragem colaborativa. Os autores apresentam também os principais problemas que 
+O artigo de \citeauthoronline{2-CFSurvey} apresenta uma revisão das principais tecnologias e métodos utilizados em sistemas de recomendação. O trabalho faz uma 
+importante descrição dos principais conceitos que cercam o tema filtragem colaborativa. Os autores apresentam também os principais problemas que 
 que sistemas de recomendações enfrentam.
 
 \citeauthoronline{2-CFSurvey} dividem os algoritmos de filtragem colaborativa em três grupos: Baseados em Memória, Baseados em Modelo e Híbridos. O primeiro 
-tipo se caracteríza por serem simples e rápidos de implementar, considerando toda a base de dados para calcular similaridades e então oferecer recomendações.
-Geralmente, esta abordagem relaciona a similaridade dos usuários com base nos dados em comum que possuem a cerca dos itens do sistema. Estes dados podem ser
-avaliações, contagens de acesso etc. Das características negativas deste grupo de sistemas estão a ineficácia em lidar com dados esparços e o custo computacional
+tipo se caracteriza por ser simples e rápido de implementar, considerando toda a base de dados para calcular similaridades e, então, oferecer recomendações.
+Geralmente, esta abordagem relaciona a similaridade dos usuários com base nos dados em comum que possuem acerca dos itens do sistema. Estes dados podem ser
+avaliações, contagens de acesso etc. Dentre as características negativas deste grupo de sistemas, estão a ineficácia em lidar com dados esparços e o custo computacional
 elevado derivado da escala das bases de dados. 
 
 O segundo grupo de sistemas de recomendações, os sistemas baseados em modelo, busca superar os pontos negativos do primeiro. Esta abordagem utiliza técnicas de
 análise de dados e aprendizado de máquina para montar um modelo que permita fornecer recomendações. 
 
-Os sistemas de recomendação híbridos, categoria da ferramenta proposta neste documento, combínam características de filtragem colaborativa com filtragem baseada
-em conteúdo. Neste grupo, os algoritmos utilizam os dados que coleta dos usuários em relação aos itens assim como dados das características dos itens.
-combinando estes dois tipos de informações o sistema se torna mais eficiente contra a esparcidade de dados e as Ovelhas Cinzas.
+Os sistemas de recomendação híbridos, categoria da ferramenta proposta neste documento, combinam características de filtragem colaborativa com filtragem baseada
+em conteúdo. Neste grupo, os algoritmos utilizam os dados coletados dos usuários em relação aos itens, assim como dados das características dos itens.
+Combinando estes dois tipos de informações o sistema se torna mais eficiente contra a esparsidade de dados e as Ovelhas Cinzas.
 
-O artigo estabelece uma introdução à diferentes algoritmos de cada grupo citado acima. Introduz também métricas de eficiência para SRs como
-erro absoluto médio e \textit{Root Mean Squared Error}, que serão utilizadas para elaborar a análise de eficiência dos algoritimos implementados no projeto.
+O artigo estabelece uma introdução a diferentes algoritmos de cada grupo citado acima. Introduz também métricas de eficiência para SRs,	 como
+erro absoluto médio e \textit{Root Mean Squared Error}, que serão utilizadas para elaborar a análise de eficiência dos algoritmos implementados no projeto.
 
 \section{\citeonline{5-GoogleCollaborativeFiltering}}
 Este artigo apresenta uma proposta de solução para a sugestão de notícias do \textit{website} Google News. A solução precisa satisfazer dois requisitos principais:
-Escalabilidade e Velocidade de Atualização do Modelo. Além disto é interessante que o algoritmo seja agnóstico e reutilizável em aplicações de diferentes domínios 
+Escalabilidade e Velocidade de Atualização do Modelo. Além disto, é interessante que o algoritmo seja agnóstico e reutilizável em aplicações de diferentes domínios 
 da empresa.
 
-A solução proposta consiste em mesclar técnicas baseadas em memória e de modelo para gerar as recomendações. Da parte baseada em modelo são utilizadas duas técnicas
-de \textit{cluster} - \textit{PLSI} e MinHash - enquanto que dos métdos de memória foi utilizada a \textit{item covisitation}. No modelo proposto, cada acesso a um 
+A solução proposta consiste em mesclar técnicas baseadas em memória e de modelo para gerar as recomendações. Da parte baseada em modelo, são utilizadas duas técnicas
+de \textit{cluster} - \textit{PLSI} e MinHash - enquanto que, dos métodos de memória, foi utilizada a \textit{item covisitation}. No modelo proposto, cada acesso a um 
 \textit{link} da plataforma \textit{Google News} é registrado no histórico do usuário. O índice de similaridade dos usuários é calculado através da intersecção dos
-históricos de acesso enquanto que o algorítmo \textit{PLSI} classifica os usuários em grupos e os links em gêneros.
+históricos de acesso enquanto que o algoritmo \textit{PLSI} classifica os usuários em grupos e os links em gêneros.
 
 A solução descrita no artigo de \citeonline{5-GoogleCollaborativeFiltering} se difere do projeto proposto neste documento em alguns pontos:
 
 \begin{enumerate}
-	\item \textbf{Categorização dos Itens:} No modelo proposto por \citeonline{5-GoogleCollaborativeFiltering} os itens (notícias) são categorizados conforme os acessos que recebe. Visando a solucionar
-	o problema da esparsidade de dados o projeto proposto possibilita a categorização dos itens adicionados. Esta categoria terá influência nas recomendações de forma que mesmo itens recém adicionados
+	\item \textbf{Categorização dos Itens:} No modelo proposto por \citeonline{5-GoogleCollaborativeFiltering}, os itens (notícias) são categorizados conforme os acessos que recebe. Visando a solucionar
+	o problema da esparsidade de dados,	 o projeto proposto possibilita a categorização dos itens adicionados. Esta categoria terá influência nas recomendações de forma que mesmo itens recém adicionados
 	possam ser recomendados.
 	\item \textbf{Formato dos Dados:} Os dados utilizados na solução do Google baseiam-se no histórico de acesso às notícias. A unidade escolhida foi a booleana - se um
 	um usuário acessou uma notícia o valor é 1, do contrário é 0. A ferramenta descrita nesta proposta se difere em dois pontos: 1. Adota um sistema de verbos para indicar uma ação de um usuário;
 	2. Contabiliza as ações dos usuários de maneira incremental. Estas diferenças permitem identificar quais itens são mais relevantes assim como qual operação sobre o item tem mais valor para o usuário.
-	\item \textbf{Configuração dos Algoritmos:} A ferramenta génerica de recomendações conforme concebida se propõe a ser capaz de implementar e utilizar diferentes tipos de algorítmos de filtragem colaborativa,
+	\item \textbf{Configuração dos Algoritmos:} A ferramenta genérica de recomendações conforme concebida se propõe a ser capaz de implementar e utilizar diferentes tipos de algoritmos de filtragem colaborativa,
 	diferentemente da solução do referido artigo que se foca em apenas uma abordagem.
 \end{enumerate}
 
@@ -470,41 +471,41 @@ O material acadêmico do professor e autor Michael J. Greenacre apresenta as var
 \end{itemize}
 
 \section{Ferramentas Relacionadas}
-A partir de buscas na internet diferentes ferramentas com propostas a cerca de recomendações foram encontradas. Esta seção irá elencar e comparar estes softwares com o projeto proposto.
+A partir de buscas na internet, diferentes ferramentas com propostas acerca de recomendações foram encontradas. Esta seção irá elencar e comparar estes softwares com o projeto proposto.
 
 \begin{itemize}
-	\item \textbf{Episerver:}\footnote{https://www.episerver.com} Enquadra-se no modelo de softwares como serviços. Possui foco em ecommerce e oferece diferentes pacotes com diferente funcionalidades. O 
+	\item \textbf{Episerver:}\footnote{https://www.episerver.com} Enquadra-se no modelo de software como serviço (SaS). Possui foco em \textit{e-commerce} e oferece diferentes pacotes com diferente funcionalidades. O 
 	\textit{website} do produto não revela muitos detalhes, sugerindo que o Episerver é um conjunto de soluções para \textit{e-commerce} que vão além das recomendações. Estas soluções são acopladas em
 	sistemas de venda digital e executam uma série de atividades. O Módulo Episerver Perform se propõe a coletar dados dos usuários, importar o catálogo de produtos e entregar recomendações diretamente
-	ao usuário. Se comparado com a proposta genérica apresentada por este documento, notam-se algumas diferenças. A primeira delas está na coleta de dados, que no sistema Episerver é uma responsabilidade 
+	ao usuário. Se comparado com a proposta genérica apresentada por este documento, notam-se algumas diferenças. A primeira delas está na coleta de dados, que, no sistema Episerver, é uma responsabilidade 
 	do sistema. A ferramenta proposta aborda passivamente esta questão, apenas recebendo as informações dos sistemas clientes. Além disso, a ferramenta não é responsável por exibir as recomendações ao usuário
-	e nem conhece a estrutura dos dados que recomenda. Desta maneira mantém-se a independencia do domínio, característica aparentemente não presente no software Episerver.
-	\item \textbf{Strands:}\footnote{http://retail.strands.com/products/product-recommendations/} Semelhantemente ao software anterior, este produto tem foco em \textit{e-commerce} e assume o pepel de coletor
+	e nem conhece a estrutura dos dados que recomenda. Desta maneira, mantém-se a independência do domínio, característica aparentemente não presente no software Episerver.
+	\item \textbf{Strands:}\footnote{http://retail.strands.com/products/product-recommendations/} Semelhantemente ao software anterior, este produto tem foco em \textit{e-commerce} e assume o papel de coletor
 	e exibidor das recomendações. Mais uma vez, devido ao fato de ser um sistema proprietário no modelo SaS, pouca informação sobre o funcionamento da plataforma é disponibilizada. Aparentemente, scripts
 	de coleta de dados comportamentais são inseridos na loja virtual para identificar os padrões de navegação dos clientes. A entrega das recomendações é feita através da inserção de widgets que exibem
-	produtos préviamente importados. Se comparado com a proposta nota-se que o sistema Strands não tem a pretenção de se manter abstrato ao domínio nem de oferecer diferentes implementações de algorítmos para escolha.
+	produtos previamente importados. Se comparado com a proposta, nota-se que o sistema Strands não tem a pretenção de se manter abstrato ao domínio nem de oferecer diferentes implementações de algoritmos para escolha.
 	Estas características são o que distinguem o produto citado do projeto proposto.
-	\item \textbf{SLI Learning Recommendations:}\footnote{https://www.sli-systems.com/solutions/product-recommendation} Semelhantemente aos outros sistemas apresentados, o \textit{SLI Learning Recomendations} 
+	\item \textbf{SLI Learning Recommendations:}\footnote{https://www.sli-systems.com/solutions/product-recommendation} Assim como os outros sistemas apresentados, o \textit{SLI Learning Recomendations} 
 	tem por foco \textit{e-commerces} e funciona coletando dados através da inserção de scripts de coleta de dados na loja. Este sistema difere-se em considerar questões inerentes ao domínio das vendas digitais
-	para efetuar recomendações. Os itens recomendados consideram fatores como venda cruzada, aumento da média de valor dos carrinhos, etapas do processo de compra e conversão de possíveis clientes. Além disto 
+	para efetuar recomendações. Os itens recomendados consideram fatores como venda cruzada, aumento da média de valor dos carrinhos, etapas do processo de compra e conversão de possíveis clientes. Além disto, 
 	este sistema possui uma API que permite adicionar recomendações em outros elementos como emails. O projeto proposto se difere por considerar exclusivamente os padrões comportamentais dos usuários e a
 	categorização dos itens para efetuar as recomendações. Outro ponto de divergência é a abstração genérica da ferramenta projetada. 
 	\item \textbf{ActionML Universal Recommender:}\footnote{https://github.com/actionml/universal-recommender} O projeto \textit{Universal Recommender} se assemelha à ferramenta proposta em manter-se abstraído
 	do domínio a fim de se tornar genérico. Este sistema funciona com base no conceito de eventos, ocorrencias na aplicação cliente que podem ser utilizadas como indicadores de preferência. Os eventos são
 	classificados em dois tipos de acordo com uma modelagem prévia: Eventos primários e secundários. Um evento primário é o indicador de interesse mais forte na aplicação cliente e tem mais influência nas
-	recomendações. Os eventos secundários podem ser quaisquer outras ações registradas no cliente que indiquem interesse do usuário. O sistema utiliza o algorítmo \textit{Correlation Cross-Ocorrence} para 
-	gerar as recomendações. Das ferramentas apresentadas é a que mais se aproxima da proposta apresentada. Dentre as diferenças se destacam a necessidade de se modelar minimamente os eventos que serão inseridos
-	no sistema, o consumo das recomendações, feito através de queries e não de uma API, e a abordagem híbrida utilizada. Sobre este último item, o \textit{Universal Recommeder} permite que dados dos itens sejam 
-	inseridos no sistema enquanto que a ferramenta proposta permite apenas a categorização dos itens com o objetivo de melhorar a eficiência em cenários de dados esparços.
+	recomendações. Os eventos secundários podem ser quaisquer outras ações registradas no cliente que indiquem interesse do usuário. O sistema utiliza o algoritmo \textit{Correlation Cross-Ocorrence} para 
+	gerar as recomendações. Das ferramentas apresentadas é a que mais se aproxima da proposta apresentada. Dentre as diferenças destacam-se a necessidade de se modelar minimamente os eventos que serão inseridos
+	no sistema, o consumo das recomendações, feito através de queries e não de uma API, e a abordagem híbrida utilizada. Sobre este último ponto, o \textit{Universal Recommeder} permite que dados dos itens sejam 
+	inseridos no sistema, enquanto na ferramenta proposta permite apenas a categorização dos itens com o objetivo de melhorar a eficiência em cenários de dados esparsos.
 \end{itemize} 
 
 \chapter{Metodologia}
-Neste capítulo serão detalhados o planejamento para o decorrer do projeto nos seguintes assuntos: Abstração do Modelo, Técnicas e Algoritmos, Tecnologias e
+Neste capítulo, será detalhado o planejamento para o decorrer do projeto nos seguintes assuntos: Abstração do Modelo, Técnicas e Algoritmos, Tecnologias e
 Arquitetura do Sistema.
 
 \section{Abstração do Modelo}
 O desenvolvimento do projeto será baseado na construção de uma abstração que possa representar os elementos mais comuns dos sistemas de recomendações.
-Esta abstração deve ser capaz de representar elementos de qualquer domínio, mantendo a capacidade de identifica-los na aplicação cliente. Destes pressupostos estabeleceu-se o seguinte protótipo de abstração:
+Esta abstração deve ser capaz de representar elementos de qualquer domínio, mantendo a capacidade de identificá-los na aplicação cliente. Destes pressupostos, estabeleceu-se o seguinte protótipo de abstração:
 
 \begin{center}
 	\begin{table}[hbt]
@@ -525,55 +526,55 @@ Esta abstração deve ser capaz de representar elementos de qualquer domínio, m
 	\end{table}
 \end{center}
 
-Para todos os elementos da abstração descrita na tabela acima a ferramenta recebe um identificador, sem saber se o elemento existe ou não no cliente. Para os elementos pertencentes ao escopo dos clientes os 
-identificadores são formados por dois valores, o id da entidade e o id do elemento. Esta chave composta é utilizada apenas para que o cliente identificar os itens quando consumirem as recomendações.
+Para todos os elementos da abstração descrita na tabela acima, a ferramenta recebe um identificador, sem saber se o elemento existe ou não no cliente. Para os elementos pertencentes ao escopo dos clientes os 
+identificadores são formados por dois valores, o id da entidade e o id do elemento. Esta chave composta é utilizada apenas para que o cliente identifique os itens quando consumirem as recomendações.
 
-Os logs de atividade preenchidos pelos clientes devem conter, num formato fixo, os dados acima para representar um histórico de atividades de seus atores. Para as Categorias o sistema irá permitir o cadastro 
-prévio via API. Isto será permitido para que, também através da API, seja possível informar índices de proxímidade entre categorias de objetos. Em cenários de dados esparsos, as recomendações serão feitas considerando
+Os logs de atividade preenchidos pelos clientes devem conter, num formato fixo, os dados acima para representar um histórico de atividades de seus atores. Para as Categorias, o sistema irá permitir o cadastro 
+prévio via API. Isto será permitido para que, também através da API, seja possível informar índices de proximidade entre categorias de objetos. Em cenários de dados esparsos, as recomendações serão feitas considerando
 os itens das categorias mais próximas.
 
 \section{Técnicas e Algoritmos}
-Esta seção destina-se a detalhar os algorítmos que serão implementados no projeto assim como justificar suas ecolhas.
+Esta seção destina-se a detalhar os algoritmos que serão implementados no projeto, assim como justificar suas ecolhas.
 
 \subsection{Algoritmos de Similaridade}
-Os dados utilizados pela ferramenta para identificar padrões comportamentais serão dados de contagem. A ferramenta irá contabilizar a quantidade de ocorrencias de cada combinação Ator x Ação x Objeto, identificando
-os comportamentos mais recorrentes dos atores nos sistemas clientes. Para identificar as similaridades a partir destes dados serão implementados os algoritmos:
+Os dados utilizados pela ferramenta para identificar padrões comportamentais serão dados de contagem. A ferramenta irá contabilizar a quantidade de ocorrências de cada combinação Ator x Ação x Objeto, identificando
+os comportamentos mais recorrentes dos atores nos sistemas clientes. Para identificar as similaridades a partir destes dados, serão implementados os algoritmos:
 
 \begin{itemize}
-	\item \textbf{Distância Euclidiana:} Calcula a distância absoluta entre dois vetores, quanto mais próximos maiores as semelhanças entre os dados. Por ser o algorítmo mais simples será utiliado como base para as comparações.
-	\item \textbf{Distância Euclidiana Normalizada:} Normaliza os dados antes de efetuar o cálculo da distância. A normalização consiste em reduzir a influência das taxas de ocorrencia dos itens contabilizados, isto por que a contagem de um item
-	pode ser mais alta por possuir uma taxa de ocorrencia maior que a dos outros. Outra etapa da normalizacão é efetuar o cálculo euclidiano não sobre valores absolutos, mas sobre a porcentagem de ocorrencias de um item em relação ao total de ocorrencias.
-	\item \textbf{Distância Euclidiana Normalizada com Relevância:}Este algorítmo, além de efetuar as normalizações citadas no item anterior, leva em consideração o índice de relevância do objeto para o ator. Este índice varia entre 0 e 1 e é extraído a 
-	partir da recorrencia do objeto no histórico do ator assim como a recorrencia da categoria do objeto em questão.
-	\item \textbf{Algorítmos de Pearson}: Diferentemente da distãncia euclidiana que identifica a distância entre dois vetores, o índice de pearson índica a similaridade da tendência de variação entre duas variáveis \cite{9-CorrelationBetweenVariables}. Quanto mais próximas e proporcionais são as flutuações 
-	das variáveis, maior a similaridade entre elas. Serão implementadas cada variação da distância euclidiana citadas acima porém utilizando o índice de Pearson.
-\end{itemize}
+	\item \textbf{Distância Euclidiana:} Calcula a distância absoluta entre dois vetores. Quanto mais próximas as coordenadas do vetor, maiores as semelhanças entre os dados. Será o algoritmo base para as comparações e será utilizado para demonstrar os efeitos do uso de dados desnormalizados no cálculo de similaridades. Este método não estará disponível como uma opção de algoritmo aos usuários finais da ferramenta.
+	\item \textbf{Distância Euclidiana Normalizada:} Normaliza os dados antes de efetuar o cálculo da distância. A normalização consiste em reduzir a influência das taxas de ocorrência dos itens contabilizados, isto por que a contagem de um item
+	pode ser mais alta por possuir uma taxa de ocorrência maior que a dos outros. Outra etapa da normalizacão é efetuar o cálculo euclidiano não sobre valores absolutos, mas sobre a porcentagem de ocorrências de um item em relação ao total de ocorrências.
+	\item \textbf{Distância Euclidiana Normalizada com Relevância:} Este algoritmo, além de efetuar as normalizações citadas no item anterior, leva em consideração o índice de relevância do objeto para o ator. Este índice varia entre 0 e 1 e é extraído a 
+	partir da recorrência do objeto no histórico do ator, assim como a recorrência da categoria do objeto em questão.
+	\item \textbf{Algoritmos de Pearson}: Diferentemente da distância euclidiana que identifica a distância entre dois vetores, o índice de pearson indica a similaridade da tendência de variação entre duas variáveis \cite{9-CorrelationBetweenVariables}. Quanto mais próximas e proporcionais são as flutuações 
+	das variáveis, maior a similaridade entre elas. Sera implementada cada variação da distância euclidiana citada acima, porém, utilizando o índice de Pearson.
+\end{itemize} 
 
-Através dos índices de similaridade a ferramenta estabelece uma matriz que contém a similaridade entre cada ator do sistema.
+Através dos índices de similaridade, a ferramenta estabelece uma matriz que contém a similaridade entre cada ator do sistema.
 
 \subsection{Algoritmo de Clusterização}
-A partir de uma matriz de similaridades entre atores é gerado um modelo de \textit{clusters} que será utilizado para persistência e para consulta dos usuários com base na proximidade. Os algorítmos escolhidos para montagem dos clusters foram: 
+A partir de uma matriz de similaridades entre atores, é gerado um modelo de \textit{clusters} que será utilizado para persistência e para consulta dos usuários com base na proximidade. Os algoritmos escolhidos para montagem dos clusters foram: 
 Clusterização Hierárquica e Clusterização em Grafos. 
 
-Algorítmos de Clusterização Hierárquica se caracterizam por montar uma estrutura de árvore em que as folhas são os itens (Atores) e cada nível superior da hierarquia é formado por um cluster da junção dos dois nós diretamente abaixo. Nestes algorítmos a raíz da árvore é um
-único cluster contendo todos os outros nós da árvore. Desta maneira é montado um dendograma onde os objetos são agrupados dos mais semelhantes para os menos semelhantes \cite{10-HierarchicalClusteringAnalysis}.
+Algoritmos de Clusterização Hierárquica se caracterizam por montar uma estrutura de árvore em que as folhas são os itens (Atores) e cada nível superior da hierarquia é formado por um cluster da junção dos dois nós diretamente abaixo. Nestes algoritmos, a raíz da árvore é um
+único cluster contendo todos os outros nós da árvore. Desta maneira, é montado um dendograma onde os objetos são agrupados dos mais semelhantes para os menos semelhantes \cite{10-HierarchicalClusteringAnalysis}, como mostra a Figura 1.
 
 \begin{figure}[hbt]
-	\label{Árvore de Clusters Hierárquicos}
+	\label{fig1:HierarchicalCluster}
 	\caption{Árvore de Clusters Hierárquicos}
-	\includegraphics{hierarquical-clustering-01.png}
+	\includegraphics[width=160mm]{hierarquical-clustering-01.png}
 \end{figure}
 
-O segundo algoritmo planejado para ser desenvolvido é o de clusterização em grafos. Neste método cada ator é representado como um nó da estrutura. Os nós mais próximos são conectados entre si com arestas que possuem pesos. Para o projeto, o peso das
+O segundo algoritmo planejado para ser desenvolvido é o de clusterização em grafos. Neste método, cada ator é representado como um nó da estrutura. Os nós mais próximos são conectados entre si com arestas que possuem pesos. Para o projeto, o peso das
 arestas pode ser baseado no índice de similaridade dos atores. O grafo resultante deste método possui grupos de nós com várias conexões entre si, porém com poucas conexões com nós de outras seções. Estes grupos caracterizam os clusters.
 
-A partir das estruturas apresentadas acima, algorítmos de seleção são utilizados para se encontrar os usuários mais próximos.
+A partir das estruturas apresentadas acima, algoritmos de seleção são utilizados para se encontrar os usuários mais próximos.
 
 \section{Tecnologias}
-Partindo dos objetivos do projeto a seguinte \textit{stack} de desenvolvimento será utilizada:
+Partindo dos objetivos do projeto, a seguinte \textit{stack} de desenvolvimento será utilizada:
 
 \begin{itemize}
-	\item \textbf{Python:} A linguagem será utilizada para desenvolver o coletor de dados, a API Rest e os algorítmos de similaridade.
+	\item \textbf{Python:} A linguagem será utilizada para desenvolver o coletor de dados, a API Rest e os algoritmos de similaridade.
 	\item \textbf{MySQL:} O SGBD será utilizado para armazenamento dos históricos comportamentais extraídos dos logs dos clientes.
 	\item \textbf{Redis:} Banco de dados em memória utilizado para cache de operações em prol de performance.
 	\item \textbf{Neo4J:} Base de dados para armazenamento de grafos.
@@ -589,9 +590,9 @@ Esta seção apresenta o protótipo inicial da arquitetura do sistema. Serão de
 	\includegraphics[width=160mm]{system-architecture.png}
 \end{figure}
  
-Na imagem acima os componentes na cor verde são os módulos e serviços que estabelecem interfaces de comunicação com as aplicações clientes. O agente de coleta de dados (\textit{Data Collection Agent}) é o módulo responsável por iterar sobre os
+Na Figura 2 os componentes na cor verde são os módulos e serviços que estabelecem interfaces de comunicação com as aplicações clientes. O agente de coleta de dados (\textit{Data Collection Agent}) é o módulo responsável por iterar sobre os
 logs extraindo os dados. Este processo de leitura é disparado pelo núcleo do sistema (\textit{Core Service}).
-O segundo elemento das interfaces de comunicação é a API que é responsável por retornar ao cliente as recomendações. A Api extrai as recomendações através do motor de seleção de recomendações. Além disto, a API também se relaciona com o banco
+O segundo elemento das interfaces de comunicação é a API que é responsável por retornar ao cliente as recomendações. A API extrai as recomendações através do motor de seleção de recomendações. Além disto, a API também se relaciona com o banco
 de dados em memória que será utilizado para disponibilizar configurações e cache de operações.
 
 O componente central do sistema, o serviço daemon central (\textit{Core Daemon Service}), carrega a responsabilidade de manter o processo de atualização de dados em execução. Este serviço oferece ainda uma interface em CLI para configurações
@@ -600,7 +601,7 @@ em memória para ler e inserir configurações.
 
 Na camada de modelo estão presentes três motores: Motor de Similaridade, Motor de Clusterização e Motor de Seleção de Recomendações. O primeiro deles é responsável por estabelecer os índices de similaridade dos atores. O segundo, de 
 clusterização, recebe os dados gerados no motor de similaridade por intermédio do \textit{Core} e monta/atualiza a estrutura de clusters. Este componente é responsável ainda por extrair os atores por proximidade dos clusters. O último
-motor, de seleção de recomendações, seleciona objetos e ações com base nos atores retornados pelo motor de clusters. Cada um destes motores deve ser parametrizável de maneira que seja possível escolher qual algorítmo o motor irá utilizar.
+motor, de seleção de recomendações, seleciona objetos e ações com base nos atores retornados pelo motor de clusters. Cada um destes motores deve ser parametrizável de maneira que seja possível escolher qual algoritmo o motor irá utilizar.
 
 \chapter{Cronograma}
 A tabela abaixo apresenta o cronograma planejado para o desenvolvimento do projeto.
