@@ -1,5 +1,5 @@
 # Fdb version 3
-["bibtex proposta"] 1542763268 "proposta.aux" "proposta.bbl" "proposta" 1542763577
+["bibtex proposta"] 1542763268 "proposta.aux" "proposta.bbl" "proposta" 1544801490
   "./abntex2-alf.bst" 1540860659 62723 877753ab5249e6256faf986928948007 ""
   "/usr/local/texlive/2018/texmf-dist/bibtex/bib/abntex2/abntex2-options.bib" 1480098425 5396 4eb260dac60f150ae608d45252853090 ""
   "abntex2-modelo-references.bib" 1541728049 3357 2e3f177a2932f85e945da1ae366efab1 ""
@@ -7,13 +7,13 @@
   (generated)
   "proposta.blg"
   "proposta.bbl"
-["makeindex proposta.idx"] 1542763266 "proposta.idx" "proposta.ind" "proposta" 1542763577
+["makeindex proposta.idx"] 1542763266 "proposta.idx" "proposta.ind" "proposta" 1544801490
   "proposta.idx" 1542763576 0 d41d8cd98f00b204e9800998ecf8427e ""
   (generated)
-  "proposta.ind"
   "proposta.ilg"
-["pdflatex"] 1542763575 "/Users/guilhermemuller/Sources/TCC-SI/doc/project-texts/project-proposal/proposta.tex" "proposta.pdf" "proposta" 1542763577
-  "/Users/guilhermemuller/Sources/TCC-SI/doc/project-texts/project-proposal/proposta.tex" 1542763575 49760 39d0fbcac6d84e26927fb7513619f5b2 ""
+  "proposta.ind"
+["pdflatex"] 1542763575 "/Users/guilhermemuller/Sources/TCC-SI/doc/project-texts/project-proposal/proposta.tex" "proposta.pdf" "proposta" 1544801490
+  "/Users/guilhermemuller/Sources/TCC-SI/doc/project-texts/project-proposal/proposta.tex" 1542763628 49760 39d0fbcac6d84e26927fb7513619f5b2 ""
   "/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc" 1480098668 2375 baa924870cfb487815765f9094cf3728 ""
   "/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc" 1480098668 2405 5dcf2c1b967ee25cc46c58cd52244aed ""
   "/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc" 1480098668 2840 216e6e45ad352e2456e1149f28885bee ""
@@ -150,13 +150,13 @@
   "proposta.bbl" 1542763268 2088 abbb91950ca81a394c0a87e9ba183f98 "bibtex proposta"
   "proposta.brf" 1542763576 1110 4376ad8c62aea54da44dd42ec7de4442 ""
   "proposta.ind" 1542763266 0 d41d8cd98f00b204e9800998ecf8427e "makeindex proposta.idx"
-  "proposta.tex" 1542763575 49760 39d0fbcac6d84e26927fb7513619f5b2 ""
+  "proposta.tex" 1542763628 49760 39d0fbcac6d84e26927fb7513619f5b2 ""
   "proposta.toc" 1542763576 2048 c9c141b8428da6877ee5dea5da640e9a ""
   "system-architecture.png" 1541650312 68373 3b004a5efe79f9e78d34638832879d0c ""
   (generated)
   "proposta.toc"
   "proposta.idx"
-  "proposta.log"
-  "proposta.brf"
-  "proposta.pdf"
   "proposta.aux"
+  "proposta.pdf"
+  "proposta.brf"
+  "proposta.log"
