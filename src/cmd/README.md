@@ -1,0 +1,2 @@
+## Description
+This folder contains the declaration of the cli interaction script that will be added to the PATH during the instalation. This tool will be used to configure and trigger behaviours of the service runing in daemon mode.
