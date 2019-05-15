@@ -2,7 +2,6 @@ FROM python:3
 
 LABEL maintainer = "Guilherme Muller <guilherme.muller.m@gmail.com>"
 
-RUN mkdir /usr/src/app
-WORKDIR /usr/src/app
-
-
+RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+RUN python get-pip.py
+RUN pip install click flask requests
