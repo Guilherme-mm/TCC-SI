@@ -1,14 +1,23 @@
 version: '3.7'
 services:
-  python:
-    container_name: python-container
-    build: ./infra/docker/images/python
+  python-daemon:
+    container_name: python-daemon
+    build: ./infra/docker/images/python-daemon
     command: python /usr/src/app/bootstrap.py
     working_dir: /usr/src/app
     volumes:
-      - ./src:/usr/src/app
+      - ./src/service:/usr/src/app
     depends_on:
       - redis
+  python-clt:
+    container_name: python-clt
+    build: ./infra/docker/images/python-clt
+    working_dir: /usr/src/app
+    volumes:
+      - ./src/clt:/usr/src/app
+    depends_on:
+      - redis
+      - python-daemon
   redis:
-    container_name: redis-container
+    container_name: redis
     build: ./infra/docker/images/redis
