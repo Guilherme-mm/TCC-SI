@@ -3,7 +3,8 @@ services:
   python-daemon:
     container_name: python-daemon
     build: ./infra/docker/images/python-daemon
-    command: python /usr/src/app/bootstrap.py
+    # command: python /usr/src/app/bootstrap.py
+    command: tail -F anything
     working_dir: /usr/src/app
     volumes:
       - ./src/service:/usr/src/app
@@ -12,6 +13,7 @@ services:
   python-clt:
     container_name: python-clt
     build: ./infra/docker/images/python-clt
+    command: tail -F anything
     working_dir: /usr/src/app
     volumes:
       - ./src/clt:/usr/src/app

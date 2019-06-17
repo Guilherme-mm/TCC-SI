@@ -10,24 +10,7 @@ Description
 import os
 import sys
 
-#===== Daemon Service Start ====
-# print("starting the recommendation app...")
-# sys.stdout.flush() #just to assure the print output order
+serviceApiPath = os.path.join(os.getcwd(), "api/ServiceAPI.py")
 
-#mounting the path to the main controller script
-# cwd = os.path.join(os.getcwd(), "service/api/ServiceAPI.py")
-
-#executing the main controller script via OS handling to simulate a systemd call
-# os.system('{} {} {}'.format('python', cwd, "start"))
-
-#===== Service API Boot Up =====
-print("starting the service API...")
-sys.stdout.flush()
-# Gets the path to the api that will be available to cli tools client
-serviceApiPath = os.path.join(os.getcwd(), "service/api/ServiceAPI.py")
-
-# Flask will search the app based on a env variable. This line informs the API code path to flask
-os.environ['FLASK_APP'] = serviceApiPath
-
-# Starts flask!
-os.system('{} {} {} {}'.format('python', '-m', 'flask', 'run'))
+# os.system('{} {} {} {}'.format('python', '-m', 'flask', 'run'))
+os.system('{} {}'.format('python', serviceApiPath,))
