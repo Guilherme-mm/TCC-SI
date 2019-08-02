@@ -8,9 +8,8 @@ Description
     This script is responsible for starting the services that composes the application. It's like a enter point of the system.
 """
 import os
-import sys
 
-serviceApiPath = os.path.join(os.getcwd(), "api/ServiceAPI.py")
+mainPath = os.path.join(os.getcwd(), "main.py")
 
 # os.system('{} {} {} {}'.format('python', '-m', 'flask', 'run'))
-os.system('{} {}'.format('python', serviceApiPath,))
+os.system('{} {} {}'.format('python', '-m', mainPath))
