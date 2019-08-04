@@ -23,3 +23,6 @@ services:
   redis:
     container_name: redis
     build: ./infra/docker/images/redis
+  mongodb:
+    container_name: mongo
+    build: ./infra/docker/images/mongodb
