@@ -49,7 +49,7 @@ class ServiceAPI(Observer):
             # If the message type is "Begin", then a new operation should be started.
             if messageBody["messageType"] == MessageType.BEGIN.value:
                 # The execute method of the application main controller returns a generator. This is used to allow communication even during the operation execution.
-                generator = self.__applicationController.execute(OperationCode(messageBody["operationCode"]), messageBody)
+                generator = self.execute(OperationCode(messageBody["operationCode"]), messageBody)
 
                 # Each "i" position of the generator is a message yielded by the application main controller. Those messages are converted to ApiMessage objects and fowarded to the communication manager
                 for i in generator:
@@ -88,3 +88,13 @@ class ServiceAPI(Observer):
             responseBody["messageType"] = MessageType.END.value
             response = ApiMessage(json.dumps(responseBody), message.getReceiverAddress(), message.getReceiverPort(), message.getSenderAddress(), message.getSenderPort(), MessageType.END)
             self.communication_manager.sendMessage(response)
+
+    def execute(self, operationCode:OperationCode, data:dict):
+        if operationCode == OperationCode.SET_LOG_PATH:
+            try:
+                generator = self.__applicationController.setLogPath(data["path"]) # pylint: disable=assignment-from-no-return
+            except KeyError:
+                raise MissingParameterException("No log path provided")
+
+        for i in generator:
+            yield i
