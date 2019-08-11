@@ -1,0 +1,2 @@
+class MongoNoDiferencesFoundException(Exception):
+    pass

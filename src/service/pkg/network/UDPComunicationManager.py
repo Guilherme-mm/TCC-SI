@@ -10,7 +10,7 @@ Description
 import socket
 import threading
 from .NetworkComunicationManager import NetworkComunicationManager
-from ..api.ApiMessage import ApiMessage
+from ..model.message.ApiMessage import ApiMessage
 from ..model.patterns.Observer import Observer
 
 

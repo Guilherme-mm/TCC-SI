@@ -2,9 +2,11 @@ import json
 from ..model.patterns.Observer import Observer
 from ..network.UDPComunicationManager import UDPComunicationManager
 from ..control.GERTController import GERTController
-from ..exception.InvalidMessageType import InvalidMessageType
-from .ApiMessage import ApiMessage
-from .MessageType import MessageType
+from ..control.operation.OperationCode import OperationCode
+from ..exception.InvalidMessageTypeException import InvalidMessageTypeException
+from ..exception.MissingParameterException import MissingParameterException
+from ..model.message.ApiMessage import ApiMessage
+from ..model.message.MessageType import MessageType
 
 class ServiceAPI(Observer):
     """
@@ -12,52 +14,77 @@ class ServiceAPI(Observer):
     """
 
     def __init__(self):
-        self.udp_manager = UDPComunicationManager()
+        # Initializes the comunication manager based on the UDP protocol
+        self.communication_manager = UDPComunicationManager()
+
+        # Creates a instance of the application main controller
         self.__applicationController = GERTController()
 
     def run(self):
         """
             Makes the API start listening for incoming messages
         """
-        self.udp_manager.up()
-        self.udp_manager.registerObserver(self)
+        # Starts listening for messages
+        self.communication_manager.up()
+        # Passes to the communication manager a instance of itself to be notified when incoming messages are ready to be processed
+        self.communication_manager.registerObserver(self)
 
-    def notify(self, data:ApiMessage):
+    def notify(self, message:ApiMessage):
         """
-            Implementation of the abstract method for being notificated given a event subscription
+            @overridesParent
+            Called every time a new message received by the communication manager is ready to be processed
 
             parameters
             ----------
-            data: Mixed
-                The data sended by the notificator.
+            message: Mixed
+                The message sended by the notificator.
         """
         try:
-            messageBody = json.loads(data.getMessageBody())
-            if not messageBody["operationCode"]:
-                raise ValueError("No operation code provided")
+            messageBody = json.loads(message.getMessageBody())
+
+            # Every message must have a type
             if not messageBody["messageType"]:
                 raise ValueError("No message type provided")
 
+            # If the message type is "Begin", then a new operation should be started.
             if messageBody["messageType"] == MessageType.BEGIN.value:
-                generator = self.__applicationController.execute(messageBody["operationCode"])
-                for i in generator:
-                    print(i)
-            else:
-                raise InvalidMessageType("No valid message type provided on the body 'messageType' attribute")
+                # The execute method of the application main controller returns a generator. This is used to allow communication even during the operation execution.
+                generator = self.__applicationController.execute(OperationCode(messageBody["operationCode"]), messageBody)
 
+                # Each "i" position of the generator is a message yielded by the application main controller. Those messages are converted to ApiMessage objects and fowarded to the communication manager
+                for i in generator:
+                    responseBody = {}
+                    responseBody["status"] = 200
+                    responseBody["content"] = i.getMessageBody()
+                    responseBody["messageType"] = i.getMessageType().value
+                    response = ApiMessage(json.dumps(responseBody), message.getReceiverAddress(), message.getReceiverPort(), message.getSenderAddress(), message.getSenderPort(), MessageType.END)
+                    self.communication_manager.sendMessage(response)
+            else:
+                raise InvalidMessageTypeException("No valid message type provided on the body 'messageType' attribute")
+        # Raised if the body is not a JSON
         except ValueError as error:
             responseBody = {}
             responseBody["status"] = 401
             responseBody["message"] = "The message body is not a valid JSON"
             responseBody["errorMessage"] = str(error)
             responseBody["messageType"] = MessageType.END.value
-            response = ApiMessage(json.dumps(responseBody), data.getReceiverAddress(), data.getReceiverPort(), data.getSenderAddress(), data.getSenderPort(), MessageType.END)
-            self.udp_manager.sendMessage(response)
-        except InvalidMessageType as error:
+            response = ApiMessage(json.dumps(responseBody), message.getReceiverAddress(), message.getReceiverPort(), message.getSenderAddress(), message.getSenderPort(), MessageType.END)
+            self.communication_manager.sendMessage(response)
+        # Raised if the body sends a unrecognized message type
+        except InvalidMessageTypeException as error:
             responseBody = {}
             responseBody["status"] = 401
             responseBody["message"] = "Invalid message type"
             responseBody["errorMessage"] = str(error)
             responseBody["messageType"] = MessageType.END.value
-            response = ApiMessage(json.dumps(responseBody), data.getReceiverAddress(), data.getReceiverPort(), data.getSenderAddress(), data.getSenderPort(), MessageType.END)
-            self.udp_manager.sendMessage(response)
+            response = ApiMessage(json.dumps(responseBody), message.getReceiverAddress(), message.getReceiverPort(), message.getSenderAddress(), message.getSenderPort(), MessageType.END)
+            self.communication_manager.sendMessage(response)
+        # Called whenever a missing parameter is detected during operations executions
+        except MissingParameterException as error:
+            responseBody = {}
+            responseBody["status"] = 401
+            responseBody["message"] = error.message
+            responseBody["errorMessage"] = error.errorMessage
+            responseBody["messageType"] = MessageType.END.value
+            response = ApiMessage(json.dumps(responseBody), message.getReceiverAddress(), message.getReceiverPort(), message.getSenderAddress(), message.getSenderPort(), MessageType.END)
+            self.communication_manager.sendMessage(response)

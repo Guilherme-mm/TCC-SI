@@ -1,5 +1,5 @@
 from .Operation import Operation
-from ...api.ApiMessage import ApiMessage
+from ...model.message.ApiMessage import ApiMessage
 
 class SetLogPathOperation(Operation):
 

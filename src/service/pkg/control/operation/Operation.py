@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from ...api.ApiMessage import ApiMessage
+from ...model.message.ApiMessage import ApiMessage
 
 class Operation(ABC):
     @abstractmethod

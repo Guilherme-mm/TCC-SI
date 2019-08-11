@@ -1,0 +1,2 @@
+class MongoDocumentNotFindedException(Exception):
+    pass

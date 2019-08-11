@@ -1,6 +1,7 @@
 from .MessageType import MessageType
+from .Message import Message
 
-class ApiMessage:
+class ApiMessage(Message):
     def __init__(self, messageBody:str, senderAddress:str, senderPort:int, receiverAddress:str, receiverPort:int, messageType:MessageType = MessageType.BEGIN):
         self.messageBody = messageBody
         self.senderAddress = senderAddress
@@ -26,6 +27,6 @@ class ApiMessage:
 
     def getMessageType(self) -> MessageType:
         return self.messageType
-       
+
     def setMessageType(self, messageType:MessageType) -> None:
         self.messageType = messageType

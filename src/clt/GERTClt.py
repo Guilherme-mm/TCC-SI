@@ -36,8 +36,8 @@ sock.bind(clt_address)
 
 
 def SendMessage(message):
-    print('Sending: [{}]...'.format(message.getMessageBody()))
-    print("")
+    # print('Sending: [{}]...'.format(message.getMessageBody()))
+    # print("")
     sock.sendto(message.getMessageBody().encode('utf-8'), (message.getReceiverAddress(), message.getReceiverPort()))
 
 def MessageReceiver():
@@ -46,8 +46,10 @@ def MessageReceiver():
         data = data.decode('utf-8')
         messageBody = json.loads(data)
         if messageBody["messageType"] == MessageType.END.value:
-            print('Response Value: [{}]'.format(data))
+            print('{}'.format(messageBody["content"]))
             exit()
+        if messageBody["messageType"] == MessageType.CONTINUATION.value:
+            print('{}'.format(messageBody["content"]))
 
 @click.group()
 def cli():
