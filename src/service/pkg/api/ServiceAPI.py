@@ -1,6 +1,6 @@
 import json
 from ..model.patterns.Observer import Observer
-from ..network.UDPComunicationManager import UDPComunicationManager
+from ..network.UDPCommunicationManager import UDPCommunicationManager
 from ..control.GERTController import GERTController
 from ..control.operation.OperationCode import OperationCode
 from ..exception.InvalidMessageTypeException import InvalidMessageTypeException
@@ -14,8 +14,8 @@ class ServiceAPI(Observer):
     """
 
     def __init__(self):
-        # Initializes the comunication manager based on the UDP protocol
-        self.communication_manager = UDPComunicationManager()
+        # Initializes the communication manager based on the UDP protocol
+        self.communication_manager = UDPCommunicationManager()
 
         # Creates a instance of the application main controller
         self.__applicationController = GERTController()

@@ -5,18 +5,18 @@
 
 Description
 -----------
-    This module contains the UDPComunicationManager class.
+    This module contains the UDPCommunicationManager class.
 """
 import socket
 import threading
-from .NetworkComunicationManager import NetworkComunicationManager
+from .NetworkCommunicationManager import NetworkCommunicationManager
 from ..model.message.ApiMessage import ApiMessage
 from ..model.patterns.Observer import Observer
 
 
-class UDPComunicationManager(NetworkComunicationManager):
+class UDPCommunicationManager(NetworkCommunicationManager):
     """
-        Implements NetworkComunicationManager. Handles and abstracts the send/receive packages process in 
+        Implements NetworkCommunicationManager. Handles and abstracts the send/receive packages process in 
         the UDP network protocol.
 
         Attributes
@@ -35,7 +35,7 @@ class UDPComunicationManager(NetworkComunicationManager):
         Methods
         -------
         up()
-            Triggers the start process of the comunication structure. This process is: 1. Bind the socket to
+            Triggers the start process of the communication structure. This process is: 1. Bind the socket to
             the server address (__serverAddress); 2. Start a thread that keeps listening for messages on the
             socket; 3. Start a second thread that notify the registered observers of the received messages.
         registerObserver(observer)

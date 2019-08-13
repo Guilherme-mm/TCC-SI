@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-class NetworkComunicationManager(ABC):
+class NetworkCommunicationManager(ABC):
     @abstractmethod
     def up(self):
         pass
