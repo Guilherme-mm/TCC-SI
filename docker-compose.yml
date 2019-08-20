@@ -3,11 +3,11 @@ services:
   python-daemon:
     container_name: python-daemon
     build: ./infra/docker/images/python-daemon
-    # command: python /usr/src/app/bootstrap.py
     command: tail -F anything
     working_dir: /usr/src/app
     volumes:
       - ./src/service:/usr/src/app
+      - ./datasets:/usr/datasets
     depends_on:
       - redis
   python-clt:
@@ -23,6 +23,10 @@ services:
   redis:
     container_name: redis
     build: ./infra/docker/images/redis
+    volumes:
+      - ./data/redis:/data
   mongodb:
     container_name: mongo
     build: ./infra/docker/images/mongodb
+    volumes:
+      - ./data/mongo:/data/db

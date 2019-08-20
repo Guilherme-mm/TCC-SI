@@ -1,28 +1,7 @@
-# import click
-# import requests
-
-# @click.group()
-# def cli():
-#     pass
-
-# @cli.command()
-# def testServiceAPI():
-#     r = requests.get(url = "http://localhost:5000")
-#     print(r.text)
-
-# @cli.command()
-# def startDataCollectionRoutine():
-#     r = requests.get(url = "http://localhost:5000/routines/datacollection/start")
-#     print(r.text)
-
-
-# if __name__ == '__main__':
-#     cli()
 import socket
-import sys
-import click
 import threading
 import json
+import click
 
 from ApiMessage import ApiMessage
 from MessageType import MessageType
@@ -68,6 +47,24 @@ def setLogPath(path):
     messageBody["operationCode"] = 1 #Set log path
     messageBody["messageType"] = 1 #Begin
     messageBody["path"] = path
+    message = ApiMessage(json.dumps(messageBody), clt_address[0], clt_address[1], service_address[0], service_address[1])
+    SendMessage(message)
+
+@cli.command()
+def updateModel():
+    messageBody = {}
+    messageBody["operationCode"] = 2 #update model
+    messageBody["messageType"] = 1 #Begin
+    message = ApiMessage(json.dumps(messageBody), clt_address[0], clt_address[1], service_address[0], service_address[1])
+    SendMessage(message)
+
+@cli.command()
+@click.option('--engine', default = 'simpleEuclidian', help='The name of the similarity engine to be used')
+def setSimilarityEngine(engine):
+    messageBody = {}
+    messageBody["operationCode"] = 3 #Set similarity engine
+    messageBody["messageType"] = 1 #Begin
+    messageBody["similarityEngineName"] = engine
     message = ApiMessage(json.dumps(messageBody), clt_address[0], clt_address[1], service_address[0], service_address[1])
     SendMessage(message)
 

@@ -96,5 +96,11 @@ class ServiceAPI(Observer):
             except KeyError:
                 raise MissingParameterException("No log path provided")
 
+        if operationCode == OperationCode.UPDATE_MODEL:
+            generator = self.__applicationController.updateModel()
+
+        if operationCode == OperationCode.SET_SIMILARITY_ENGINE:
+            generator = self.__applicationController.setSimilarityEngine(data["similarityEngineName"])
+
         for i in generator:
             yield i
