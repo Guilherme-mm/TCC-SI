@@ -43,3 +43,11 @@ class MongoCollection(Collection):
 
     def get(self, queryFilter:dict):
         return self.__collection.find_one(queryFilter)
+
+    def all(self, queryFilter:dict):
+        docs = []
+        cursor = self.__collection.find(queryFilter)
+        for doc in cursor:
+            docs.append(doc)
+
+        return docs

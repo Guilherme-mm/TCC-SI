@@ -9,4 +9,5 @@ RUN python get-pip.py
 RUN pip install --upgrade pip
 RUN pip install pymongo
 RUN pip install redis
-RUN pip install pandas
+RUN pip install numpy scipy matplotlib ipython jupyter pandas sympy nose
+RUN pip install neo4j

@@ -102,5 +102,14 @@ class ServiceAPI(Observer):
         if operationCode == OperationCode.SET_SIMILARITY_ENGINE:
             generator = self.__applicationController.setSimilarityEngine(data["similarityEngineName"])
 
+        if operationCode == OperationCode.SET_CLUSTER_ALGORITHM:
+            generator = self.__applicationController.setClusterAlgorithm(data["clusterAlgorithmName"])
+
+        if operationCode == OperationCode.SET_RECOMMENDATION_SELECTION_ALGORITHM:
+            generator = self.__applicationController.setRecommendationSelectionAlgorithm(data["recommendationSelectionAlgorithmName"])
+        
+        if operationCode == OperationCode.GET_RECOMMENDATIONS:
+            generator = self.__applicationController.getRecommendations(data["actorId"], data["quantity"])
+
         for i in generator:
             yield i

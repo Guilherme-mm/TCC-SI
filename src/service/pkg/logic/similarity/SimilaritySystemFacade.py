@@ -1,41 +1,37 @@
-from .SimilarityAlgorithmsTypes import SimilarityAlgorithmsTypes
-from ..data.DataManipulationSystemFacade import DataManipulationSystemFacade
-from ...database.managers.ConfigurationsManager import ConfigurationsManager
+from .SimilarityManager import SimilarityManager
+from ...database.storage.SimilarityGraphManager import SimilarityGraphManager
 
 class SimilaritySystemFacade():
     def __init__(self):
-        pass
+        print("Similarity subsystem facade instantiated")
 
-    def calculateSimilarities(self):
-        # Map of actors and actions over objects
-        actorsDict = {}
+    def calculateSimilarities(self, logEntriesGenerator):
+        similarityManager = SimilarityManager()
 
-        # Getting the current settings of the application
-        configManager = ConfigurationsManager()
-        dataSystemFacade = DataManipulationSystemFacade()
-        configuredSimilarityEngineName = configManager.getConfiguration("similarityEngine")
-        simAlgorithmsTypes = SimilarityAlgorithmsTypes(configuredSimilarityEngineName)
-        configuredSimilarityEngine = simAlgorithmsTypes.instantiateSimilarityAlgorithm()
-
-        # Iterating over the lines of the data file and populating the actorsDict
-        logEntriesGenerator = dataSystemFacade.collectClientLogData()
+        print("Reading lines and adding data to the vectors coordinate matrix...")
         for entry in logEntriesGenerator:
-            actor = entry.getActor()
-            action = entry.getAction()
-            print("processing {} on {}".format(actor, action))
+            similarityManager.putVectorCoordinate(entry.getActor(), entry.getActionObject(), entry.getValue())
 
-            if actorsDict.get(actor, None) is None:
-                actorsDict[actor] = {}
-                if actorsDict.get(actor).get(action, None) is None:
-                    actorsDict[actor][action] = []
+        print("Data extraction done!")
 
-            actorsDict[actor][action].append(entry.getActionObject())
+        print("Generating the similarity matrix...")
+        similarityManager.generateSimilarityMatrix()
 
-        # Sends the dict to the similarity engine to generate the distances matrix
-        distancesMatrix = configuredSimilarityEngine.calculateSimilarities(actorsDict)
+        print("Returning generated sim data")
+        return {
+            "similarityMatrix":similarityManager.getSimilarityMatrix(),
+            "rowActorsMap":similarityManager.getSimMatrixMap(),
+            "clientExtractedData":similarityManager.getDataMatrix(),
+            "clientExtractedDataMap": similarityManager.getDimensionsIndentificators()
+        }
 
     def generateClusters(self):
         pass
+
+    def persistSimilarities(self, similarityMatrix, rowActorMap):
+        print("Starting sim data persist")
+        simGraphManager = SimilarityGraphManager()
+        return simGraphManager.generateGraphFromSimMatrix(similarityMatrix, rowActorMap)
 
     def getRecommendation(self):
         pass

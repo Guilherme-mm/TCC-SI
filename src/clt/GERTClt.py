@@ -25,7 +25,11 @@ def MessageReceiver():
         data = data.decode('utf-8')
         messageBody = json.loads(data)
         if messageBody["messageType"] == MessageType.END.value:
-            print('{}'.format(messageBody["content"]))
+            try:
+                print('{}'.format(messageBody["content"]))
+            except KeyError:
+                print(messageBody)
+
             exit()
         if messageBody["messageType"] == MessageType.CONTINUATION.value:
             print('{}'.format(messageBody["content"]))
@@ -65,6 +69,38 @@ def setSimilarityEngine(engine):
     messageBody["operationCode"] = 3 #Set similarity engine
     messageBody["messageType"] = 1 #Begin
     messageBody["similarityEngineName"] = engine
+    message = ApiMessage(json.dumps(messageBody), clt_address[0], clt_address[1], service_address[0], service_address[1])
+    SendMessage(message)
+
+@cli.command()
+@click.option('--algorithm', default="hierarchicalCluster", help="The name of the clustering algorithm")
+def setClusterAlgorithm(algorithm):
+    messageBody = {}
+    messageBody["operationCode"] = 4
+    messageBody["messageType"] = 1 #Begin
+    messageBody["clusterAlgorithmName"] = algorithm
+    message = ApiMessage(json.dumps(messageBody), clt_address[0], clt_address[1], service_address[0], service_address[1])
+    SendMessage(message)
+
+@cli.command()
+@click.option('--algorithm', default="KNN", help="The name of the recomendation selection algorithm")
+def setRecommendationSelectionAlgorithm(algorithm):
+    messageBody = {}
+    messageBody["operationCode"] = 5
+    messageBody["messageType"] = 1 #Begin
+    messageBody["recommendationSelectionAlgorithmName"] = algorithm
+    message = ApiMessage(json.dumps(messageBody), clt_address[0], clt_address[1], service_address[0], service_address[1])
+    SendMessage(message)
+
+@cli.command()
+@click.option('--actor', help="The identifier of the actor that will receive recommendations")
+@click.option('--quantity', default=10, help="The number of recommendations desired")
+def getRecommendations(actor, quantity):
+    messageBody = {}
+    messageBody["operationCode"] = 6
+    messageBody["messageType"] = 1 #Begin
+    messageBody["actorId"] = actor
+    messageBody["quantity"] = quantity
     message = ApiMessage(json.dumps(messageBody), clt_address[0], clt_address[1], service_address[0], service_address[1])
     SendMessage(message)
 

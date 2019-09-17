@@ -28,5 +28,15 @@ services:
   mongodb:
     container_name: mongo
     build: ./infra/docker/images/mongodb
+    ports:
+      - "27017:27017"
     volumes:
       - ./data/mongo:/data/db
+  neo4j:
+    container_name: neo4j
+    build: ./infra/docker/images/neo4j
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - ./data/neo4j:/var/lib/neo4j/data
