@@ -11,12 +11,12 @@ class SimilarityGraphManager():
 
         #Adding the actors nodes
         print("Creating nodes...")
-        for actorRow, actorId in rowActorsMap.items():
+        for actorRow, actorId in rowActorsMap.items(): # pylint: disable=unused-variable
             properties["actorId"] = actorId
             try:
                 self.__neo4jCollection.insert(labels, properties)
                 print("Actor {} created".format(actorId))
-            except Exception:
+            except Exception: # pylint: disable=broad-except
                 print("Actor {} skipped".format(actorId))
                 continue
 
