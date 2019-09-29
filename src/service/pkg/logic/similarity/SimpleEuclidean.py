@@ -1,4 +1,4 @@
-import numpy
+import numpy # pylint: disable=import-error
 from .SimilarityAlgorithm import SimilarityAlgorithm
 
 class SimpleEuclidean(SimilarityAlgorithm):
@@ -6,7 +6,13 @@ class SimpleEuclidean(SimilarityAlgorithm):
         pass
 
     def calculateSimilarityScore(self, vector, secondVector):
-        return float(format(numpy.sqrt(numpy.sum((vector-secondVector)**2)), '.2f'))
+        absoluteDistance = float(format(numpy.sqrt(numpy.sum((vector-secondVector)**2)), '.2f'))
+        try:
+            simIndex = 1/absoluteDistance
+        except ZeroDivisionError:
+            simIndex = 0
+
+        return simIndex
 
     def calculateSimilarityMatrix(self, dataMatrix):
         rowsNumber = numpy.size(dataMatrix, 0)
