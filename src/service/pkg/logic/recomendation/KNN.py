@@ -19,7 +19,6 @@ class KNN(SelectionAlgorithm):
         for neighbor in closestNeighbors:
             neighborsIds.append(neighbor["node"]["actorId"])
 
-
         #Getting the objects that the actor interacted
         actorData = cliendDataStorage.getActorData(actorId)
         actorVectorData = actorData["dataVector"]
@@ -27,10 +26,12 @@ class KNN(SelectionAlgorithm):
         #Getting object data from neighbors
         neighborsData = cliendDataStorage.getActorsData(neighborsIds)
 
+        objectList = []
         recommendations = []
 
         for neighbor in closestNeighbors:
             neighborId = neighbor["node"]["actorId"]
+            relationshipWeight = neighbor["relationship"]["weight"]
 
             for neighborData in neighborsData:
                 if neighborData["actorId"] != neighborId:
@@ -45,15 +46,19 @@ class KNN(SelectionAlgorithm):
                             objectNotUsedByActor = False
 
                     if objectNotUsedByActor:
-                        recommendations.append(objectData["objectId"])
-                    
-                    if len(recommendations) == quantity:
-                        break
+                        objectData["value"] = float(objectData["value"]) * relationshipWeight
+                        objectList.append(objectData)
+                        # recommendations.append(objectData["objectId"])
 
-                if len(recommendations) == quantity:
-                    break
+                    # if len(recommendations) == quantity:
+                    #     break
 
-            if len(recommendations) == quantity:
-                break
+                # if len(recommendations) == quantity:
+                #     break
 
-        return recommendations
+            # if len(recommendations) == quantity:
+            #     break
+
+        recommendations = objectList
+        recommendations.sort(key=lambda x: x["value"],reverse=True)
+        return recommendations[:quantity]
