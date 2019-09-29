@@ -10,7 +10,7 @@ class SimpleEuclidean(SimilarityAlgorithm):
         try:
             simIndex = 1/absoluteDistance
         except ZeroDivisionError:
-            simIndex = 0
+            simIndex = 1
 
         return simIndex
 
