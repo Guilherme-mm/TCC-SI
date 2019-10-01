@@ -1,4 +1,4 @@
-import numpy
+import numpy # pylint: disable=import-error
 from .SimilarityAlgorithmsTypes import SimilarityAlgorithmsTypes
 from ...database.storage.ConfigurationsManager import ConfigurationsManager
 
