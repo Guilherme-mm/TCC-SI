@@ -107,7 +107,7 @@ class ServiceAPI(Observer):
 
         if operationCode == OperationCode.SET_RECOMMENDATION_SELECTION_ALGORITHM:
             generator = self.__applicationController.setRecommendationSelectionAlgorithm(data["recommendationSelectionAlgorithmName"])
-        
+
         if operationCode == OperationCode.GET_RECOMMENDATIONS:
             generator = self.__applicationController.getRecommendations(data["actorId"], data["quantity"])
 
