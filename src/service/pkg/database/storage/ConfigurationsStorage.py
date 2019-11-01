@@ -1,7 +1,7 @@
 from ..collections.RedisCollection import RedisCollection
 from ..collections.MongoCollection import MongoCollection
 
-class ConfigurationsManager():
+class ConfigurationsStorage():
     def __init__(self):
         self.__redisCollection = RedisCollection()
         self.__mongoCollection = MongoCollection()

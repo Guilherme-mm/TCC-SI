@@ -35,3 +35,7 @@ class SimilaritySystemFacade():
 
     def getRecommendation(self):
         pass
+
+    def clearPersistedSimData(self):
+        simGraphManager = SimilarityGraphManager()
+        return simGraphManager.clearGraph()

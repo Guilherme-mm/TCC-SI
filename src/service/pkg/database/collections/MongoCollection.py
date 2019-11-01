@@ -51,3 +51,6 @@ class MongoCollection(Collection):
             docs.append(doc)
 
         return docs
+
+    def wipeSelectedCollectionData(self):
+        return self.__collection.delete_many({})

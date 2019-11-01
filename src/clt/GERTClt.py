@@ -26,13 +26,13 @@ def MessageReceiver():
         messageBody = json.loads(data)
         if messageBody["messageType"] == MessageType.END.value:
             try:
-                print('{}'.format(messageBody["content"]))
+                print('{}'.format(messageBody["messageContent"]))
             except KeyError:
                 print(messageBody)
 
             exit()
         if messageBody["messageType"] == MessageType.CONTINUATION.value:
-            print('{}'.format(messageBody["content"]))
+            print('{}'.format(messageBody["messageContent"]))
 
 @click.group()
 def cli():
@@ -48,16 +48,18 @@ def sendMessageToService(body):
 @click.option('--path', help='Location of the log files from where data will be collected')
 def setLogPath(path):
     messageBody = {}
-    messageBody["operationCode"] = 1 #Set log path
+    messageBody["messageContent"] = {}
+    messageBody["messageContent"]["operationCode"] = 1 #Set log path
+    messageBody["messageContent"]["path"] = path
     messageBody["messageType"] = 1 #Begin
-    messageBody["path"] = path
     message = ApiMessage(json.dumps(messageBody), clt_address[0], clt_address[1], service_address[0], service_address[1])
     SendMessage(message)
 
 @cli.command()
 def updateModel():
     messageBody = {}
-    messageBody["operationCode"] = 2 #update model
+    messageBody["messageContent"] = {}
+    messageBody["messageContent"]["operationCode"] = 2 #update model
     messageBody["messageType"] = 1 #Begin
     message = ApiMessage(json.dumps(messageBody), clt_address[0], clt_address[1], service_address[0], service_address[1])
     SendMessage(message)
@@ -66,9 +68,10 @@ def updateModel():
 @click.option('--engine', default = 'simpleEuclidian', help='The name of the similarity engine to be used')
 def setSimilarityEngine(engine):
     messageBody = {}
-    messageBody["operationCode"] = 3 #Set similarity engine
+    messageBody["messageContent"] = {}
+    messageBody["messageContent"]["operationCode"] = 3 #Set similarity engine
+    messageBody["messageContent"]["similarityEngineName"] = engine
     messageBody["messageType"] = 1 #Begin
-    messageBody["similarityEngineName"] = engine
     message = ApiMessage(json.dumps(messageBody), clt_address[0], clt_address[1], service_address[0], service_address[1])
     SendMessage(message)
 
@@ -101,6 +104,59 @@ def getRecommendations(actor, quantity):
     messageBody["messageType"] = 1 #Begin
     messageBody["actorId"] = actor
     messageBody["quantity"] = quantity
+    message = ApiMessage(json.dumps(messageBody), clt_address[0], clt_address[1], service_address[0], service_address[1])
+    SendMessage(message)
+
+
+@cli.command()
+@click.option('--path', help="The path to the file containing the test data samples")
+def setTestDataPath(path):
+    messageBody = {}
+    messageBody["messageContent"] = {}
+    messageBody["messageContent"]["operationCode"] = 7 #Set test data path
+    messageBody["messageContent"]["path"] = path
+    messageBody["messageType"] = 1 #Begin
+    message = ApiMessage(json.dumps(messageBody), clt_address[0], clt_address[1], service_address[0], service_address[1])
+    SendMessage(message)
+
+@cli.command()
+def testRecommendationsAccuracy():
+    messageBody = {}
+    messageBody["messageContent"] = {}
+    messageBody["messageContent"]["operationCode"] = 8 #Test Accuracy
+    messageBody["messageType"] = 1 #Begin
+    message = ApiMessage(json.dumps(messageBody), clt_address[0], clt_address[1], service_address[0], service_address[1])
+    SendMessage(message)
+
+@cli.command()
+def clearGraphDB():
+    messageBody = {}
+    messageBody["messageContent"] = {}
+    messageBody["messageContent"]["operationCode"] = 9 #Clear DB
+    messageBody["messageType"] = 1 #Begin
+
+    message = ApiMessage(json.dumps(messageBody), clt_address[0], clt_address[1], service_address[0], service_address[1])
+    SendMessage(message)
+
+@cli.command()
+def clearDataDB():
+    messageBody = {}
+    messageBody["messageContent"] = {}
+    messageBody["messageContent"]["operationCode"] = 10 #Clear DB
+    messageBody["messageType"] = 1 #Begin
+
+    message = ApiMessage(json.dumps(messageBody), clt_address[0], clt_address[1], service_address[0], service_address[1])
+    SendMessage(message)
+
+@cli.command()
+@click.option('--name', help="The configuration name")
+def getConfigurationValue(name):
+    messageBody = {}
+    messageBody["messageContent"] = {}
+    messageBody["messageContent"]["operationCode"] = 11 #Get config
+    messageBody["messageContent"]["configurationName"] = name
+    messageBody["messageType"] = 1 #Begin
+
     message = ApiMessage(json.dumps(messageBody), clt_address[0], clt_address[1], service_address[0], service_address[1])
     SendMessage(message)
 

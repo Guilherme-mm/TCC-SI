@@ -40,3 +40,6 @@ class ClientDataStorage():
         }
 
         return self.__mongoCollection.all(queryFilter)
+
+    def deleteClientData(self):
+        return self.__mongoCollection.wipeSelectedCollectionData()

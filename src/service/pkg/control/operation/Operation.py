@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
-from ...model.message.ApiMessage import ApiMessage
+from ...model.message.NetworkMessage import NetworkMessage
 
 class Operation(ABC):
     @abstractmethod
-    def execute(self) -> ApiMessage:
+    def execute(self) -> NetworkMessage:
         pass

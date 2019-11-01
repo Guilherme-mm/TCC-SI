@@ -13,7 +13,7 @@ class KNN(SelectionAlgorithm):
         simGraphManager =  SimilarityGraphManager()
         cliendDataStorage = ClientDataStorage()
 
-        closestNeighbors = simGraphManager.getByWeight(actorId=actorId)
+        closestNeighbors = simGraphManager.getByWeight(actorId=actorId, limit=quantity)
         neighborsIds = []
 
         for neighbor in closestNeighbors:
@@ -46,7 +46,7 @@ class KNN(SelectionAlgorithm):
                             objectNotUsedByActor = False
 
                     if objectNotUsedByActor:
-                        objectData["value"] = float(objectData["value"]) * relationshipWeight
+                        objectData["weightedValue"] = float(objectData["value"]) * relationshipWeight
                         objectList.append(objectData)
                         # recommendations.append(objectData["objectId"])
 
@@ -60,5 +60,5 @@ class KNN(SelectionAlgorithm):
             #     break
 
         recommendations = objectList
-        recommendations.sort(key=lambda x: x["value"],reverse=True)
+        recommendations.sort(key=lambda x: x["weightedValue"],reverse=True)
         return recommendations[:quantity]

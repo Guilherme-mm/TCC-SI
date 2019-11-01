@@ -21,10 +21,10 @@ class SimilarityAlgorithm(ABC):
                     continue
 
                 simScore = self.calculateSimilarityScore(dataMatrix[index], dataMatrix[secondIndex])
-
                 similarityMatrix[index, secondIndex] = simScore
                 secondIndex += 1
 
+            print("{} of {}".format(index, rowsNumber))
             index += 1
 
         print("Similarity matrix calculated successfully")

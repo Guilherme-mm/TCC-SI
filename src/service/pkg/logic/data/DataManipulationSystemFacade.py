@@ -1,6 +1,6 @@
 from typing import Generator
 from .ClientDataManager import ClientDataManager
-from ...database.storage.ConfigurationsManager import ConfigurationsManager
+from ...database.storage.ConfigurationsStorage import ConfigurationsStorage
 from ...model.log.LogEntry import LogEntry
 
 class DataManipulationSystemFacade():
@@ -9,7 +9,7 @@ class DataManipulationSystemFacade():
 
     def collectClientLogData(self) -> Generator:
         print("Starting log data extraction...")
-        configManager = ConfigurationsManager()
+        configManager = ConfigurationsStorage()
         clientLogPath = configManager.getConfiguration("clientLogPath")
         print("The configured log path is [{}]".format(clientLogPath))
 
@@ -39,3 +39,17 @@ class DataManipulationSystemFacade():
     def persistClientData(self, clientData, dataMap):
         clientDataManager = ClientDataManager()
         return clientDataManager.persistClientData(clientData, dataMap)
+
+    def collectTestData(self) -> Generator:
+        configManager = ConfigurationsStorage()
+        testDataFilePath = configManager.getConfiguration("testDataPath")
+
+        with open(testDataFilePath, 'r') as dataFile:
+            for line in dataFile:
+                linePositions = line.split('\t')
+                logEntry =  LogEntry(linePositions[0], "rated", linePositions[1], linePositions[2])
+                yield logEntry
+
+    def clearClientData(self):
+        clientDataManager = ClientDataManager()
+        return clientDataManager.wipeClientData()

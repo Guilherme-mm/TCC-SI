@@ -1,9 +1,9 @@
 from .ClusterAlgorithmsTypes import ClusterAlgorithmsTypes
-from ...database.storage.ConfigurationsManager import ConfigurationsManager
+from ...database.storage.ConfigurationsStorage import ConfigurationsStorage
 
 class ClusterManager():
     def __init__(self):
-        self.__configManager = ConfigurationsManager()
+        self.__configManager = ConfigurationsStorage()
         configuredClusterAlgorithm = self.__configManager.getConfiguration("clusterAlgorithm")
         clusterAlgorithmsTypes = ClusterAlgorithmsTypes(configuredClusterAlgorithm)
         self.__clusterAlgorithm = clusterAlgorithmsTypes.instantiateClusterAlgorithm()

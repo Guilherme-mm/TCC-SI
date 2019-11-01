@@ -8,3 +8,7 @@ class ClientDataManager():
         clientDataStorage = ClientDataStorage()
         clientDataStorage.saveClientData(clientData, dataMap)
         return True
+
+    def wipeClientData(self):
+        clientDataStorage = ClientDataStorage()
+        clientDataStorage.deleteClientData()

@@ -48,3 +48,7 @@ class SimilarityGraphManager():
 
         results = self.__neo4jCollection.get(nodeALabels=nodeLabels, nodeAProperties=node1Properties, relationshipLabels=relationshipLabels, nodeBLabels=nodeLabels, orderBy=orderBy, limit=limit)
         return results
+
+    def clearGraph(self):
+        result = self.__neo4jCollection.truncateDB()
+        return result

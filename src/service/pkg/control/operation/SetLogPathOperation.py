@@ -1,9 +1,9 @@
 from .Operation import Operation
-from ...model.message.ApiMessage import ApiMessage
+from ...model.message.NetworkMessage import NetworkMessage
 
 class SetLogPathOperation(Operation):
 
-    def execute(self) -> ApiMessage:
+    def execute(self) -> NetworkMessage:
         yield "Consegui"
         yield "a parada"
         yield "funciona!"

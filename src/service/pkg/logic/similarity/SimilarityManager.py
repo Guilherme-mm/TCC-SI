@@ -1,12 +1,12 @@
 import numpy # pylint: disable=import-error
 from .SimilarityAlgorithmsTypes import SimilarityAlgorithmsTypes
-from ...database.storage.ConfigurationsManager import ConfigurationsManager
+from ...database.storage.ConfigurationsStorage import ConfigurationsStorage
 
 class SimilarityManager():
     def __init__(self):
         print("Similarity manager startup routine started:")
         # Looking for the configured similarity engine
-        self.__configManager = ConfigurationsManager()
+        self.__configManager = ConfigurationsStorage()
         configuredSimilarityEngineName = self.__configManager.getConfiguration("similarityEngine")
         print("Using the [{}] engine".format(configuredSimilarityEngineName))
         simAlgorithmsTypes = SimilarityAlgorithmsTypes(configuredSimilarityEngineName)

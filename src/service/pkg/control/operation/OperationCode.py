@@ -10,6 +10,11 @@ class OperationCode(Enum):
     SET_CLUSTER_ALGORITHM = 4
     SET_RECOMMENDATION_SELECTION_ALGORITHM = 5
     GET_RECOMMENDATIONS = 6
+    SET_TEST_DATA_PATH = 7
+    TEST_RECOMMENDATIONS_ACCURACY = 8
+    CLEAR_GRAPH_DB = 9
+    CLEAR_DATA_DB = 10
+    GET_CONFIGURATION_VALUE = 11
 
     def instantiateOperation(self) -> Operation:
         instanceValue = self.value

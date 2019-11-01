@@ -7,7 +7,11 @@ class RedisCollection(Collection):
 
     def get(self, key:str) -> str:
         result = self.__redis.get(key)
-        return result.decode('utf-8')
+
+        if result is not None:    
+            return result.decode('utf-8')
+        else:
+            return None
 
     def insert(self, key:str, value:str) -> bool:
         result = self.__redis.set(key, value)

@@ -1,115 +1,117 @@
-import json
 from ..model.patterns.Observer import Observer
-from ..network.UDPCommunicationManager import UDPCommunicationManager
+from ..network.NetworkManagerFactory import NetworkManagerFactory
 from ..control.GERTController import GERTController
 from ..control.operation.OperationCode import OperationCode
 from ..exception.InvalidMessageTypeException import InvalidMessageTypeException
 from ..exception.MissingParameterException import MissingParameterException
-from ..model.message.ApiMessage import ApiMessage
+from ..model.message.NetworkMessage import NetworkMessage
 from ..model.message.MessageType import MessageType
+from ..model.message.NetworkMessageBuilder import NetworkMessageBuilder
 
 class ServiceAPI(Observer):
-    """
-        The service api for command line interactions.
-    """
-
     def __init__(self):
-        # Initializes the communication manager based on the UDP protocol
-        self.communication_manager = UDPCommunicationManager()
+        # Initializes the communication manager based on the current configurations (default is UDP)
+        self.__communication_manager = NetworkManagerFactory.create()
 
         # Creates a instance of the application main controller
         self.__applicationController = GERTController()
 
+    # Instantiates a new network manager and registers itself to be notified on every message received
     def run(self):
-        """
-            Makes the API start listening for incoming messages
-        """
         # Starts listening for messages
-        self.communication_manager.up()
+        self.__communication_manager.up()
+
         # Passes to the communication manager a instance of itself to be notified when incoming messages are ready to be processed
-        self.communication_manager.registerObserver(self)
+        self.__communication_manager.registerObserver(self)
 
-    def notify(self, message:ApiMessage):
-        """
-            @overridesParent
-            Called every time a new message received by the communication manager is ready to be processed
-
-            parameters
-            ----------
-            message: Mixed
-                The message sended by the notificator.
-        """
+    # Called everytime the network manager receives a message
+    def notify(self, data:object):
         try:
-            messageBody = json.loads(message.getMessageBody())
-
             # Every message must have a type
-            if not messageBody["messageType"]:
+            if not data.getMessageType():
                 raise ValueError("No message type provided")
 
             # If the message type is "Begin", then a new operation should be started.
-            if messageBody["messageType"] == MessageType.BEGIN.value:
-                # The execute method of the application main controller returns a generator. This is used to allow communication even during the operation execution.
-                generator = self.execute(OperationCode(messageBody["operationCode"]), messageBody)
+            if data.getMessageType() == MessageType.BEGIN:
+                content = data.getContent()
+                self.execute(OperationCode(content["operationCode"]), content, data)
 
-                # Each "i" position of the generator is a message yielded by the application main controller. Those messages are converted to ApiMessage objects and fowarded to the communication manager
-                for i in generator:
-                    responseBody = {}
-                    responseBody["status"] = 200
-                    responseBody["content"] = i.getMessageBody()
-                    responseBody["messageType"] = i.getMessageType().value
-                    response = ApiMessage(json.dumps(responseBody), message.getReceiverAddress(), message.getReceiverPort(), message.getSenderAddress(), message.getSenderPort(), MessageType.END)
-                    self.communication_manager.sendMessage(response)
             else:
                 raise InvalidMessageTypeException("No valid message type provided on the body 'messageType' attribute")
+
         # Raised if the body is not a JSON
         except ValueError as error:
-            responseBody = {}
-            responseBody["status"] = 401
-            responseBody["message"] = "The message body is not a valid JSON"
-            responseBody["errorMessage"] = str(error)
-            responseBody["messageType"] = MessageType.END.value
-            response = ApiMessage(json.dumps(responseBody), message.getReceiverAddress(), message.getReceiverPort(), message.getSenderAddress(), message.getSenderPort(), MessageType.END)
-            self.communication_manager.sendMessage(response)
+            responseMessage = NetworkMessageBuilder() \
+            .content("The message body is not a valid JSON") \
+            .status(401) \
+            .messageType(MessageType.END) \
+            .senderAddress(data.getReceiverAddress()) \
+            .senderPort(data.getReceiverPort()) \
+            .receiverAddress(data.getSenderAddress()) \
+            .receiverPort(data.getSenderPort()) \
+            .build()
+
+            self.__communication_manager.sendMessage(responseMessage)
+
         # Raised if the body sends a unrecognized message type
         except InvalidMessageTypeException as error:
-            responseBody = {}
-            responseBody["status"] = 401
-            responseBody["message"] = "Invalid message type"
-            responseBody["errorMessage"] = str(error)
-            responseBody["messageType"] = MessageType.END.value
-            response = ApiMessage(json.dumps(responseBody), message.getReceiverAddress(), message.getReceiverPort(), message.getSenderAddress(), message.getSenderPort(), MessageType.END)
-            self.communication_manager.sendMessage(response)
+            responseMessage = NetworkMessageBuilder() \
+            .content("Invalid message type") \
+            .status(401) \
+            .messageType(MessageType.END) \
+            .senderAddress(data.getReceiverAddress()) \
+            .senderPort(data.getReceiverPort()) \
+            .receiverAddress(data.getSenderAddress()) \
+            .receiverPort(data.getSenderPort()) \
+            .build()
+
+            self.__communication_manager.sendMessage(responseMessage)
+
         # Called whenever a missing parameter is detected during operations executions
         except MissingParameterException as error:
-            responseBody = {}
-            responseBody["status"] = 401
-            responseBody["message"] = error.message
-            responseBody["errorMessage"] = error.errorMessage
-            responseBody["messageType"] = MessageType.END.value
-            response = ApiMessage(json.dumps(responseBody), message.getReceiverAddress(), message.getReceiverPort(), message.getSenderAddress(), message.getSenderPort(), MessageType.END)
-            self.communication_manager.sendMessage(response)
+            responseMessage = NetworkMessageBuilder() \
+            .content(error.message) \
+            .status(401) \
+            .messageType(MessageType.END) \
+            .senderAddress(data.getReceiverAddress()) \
+            .senderPort(data.getReceiverPort()) \
+            .receiverAddress(data.getSenderAddress()) \
+            .receiverPort(data.getSenderPort()) \
+            .build()
 
-    def execute(self, operationCode:OperationCode, data:dict):
+            self.__communication_manager.sendMessage(responseMessage)
+
+    # Simulates a routing phase to determine wich method the application controller must execute.
+    def execute(self, operationCode:OperationCode, data:dict, networkMessage:NetworkMessage):
         if operationCode == OperationCode.SET_LOG_PATH:
-            try:
-                generator = self.__applicationController.setLogPath(data["path"]) # pylint: disable=assignment-from-no-return
-            except KeyError:
-                raise MissingParameterException("No log path provided")
+            self.__applicationController.setLogPath(data["path"], networkMessage)
 
         if operationCode == OperationCode.UPDATE_MODEL:
-            generator = self.__applicationController.updateModel()
+            self.__applicationController.updateModel(networkMessage)
 
         if operationCode == OperationCode.SET_SIMILARITY_ENGINE:
-            generator = self.__applicationController.setSimilarityEngine(data["similarityEngineName"])
+            self.__applicationController.setSimilarityEngine(data["similarityEngineName"], networkMessage)
 
         if operationCode == OperationCode.SET_CLUSTER_ALGORITHM:
-            generator = self.__applicationController.setClusterAlgorithm(data["clusterAlgorithmName"])
+            self.__applicationController.setClusterAlgorithm(data["clusterAlgorithmName"])
 
         if operationCode == OperationCode.SET_RECOMMENDATION_SELECTION_ALGORITHM:
-            generator = self.__applicationController.setRecommendationSelectionAlgorithm(data["recommendationSelectionAlgorithmName"])
+            self.__applicationController.setRecommendationSelectionAlgorithm(data["recommendationSelectionAlgorithmName"])
 
         if operationCode == OperationCode.GET_RECOMMENDATIONS:
-            generator = self.__applicationController.getRecommendations(data["actorId"], data["quantity"])
+            self.__applicationController.getRecommendations(data["actorId"], data["quantity"])
 
-        for i in generator:
-            yield i
+        if operationCode == OperationCode.SET_TEST_DATA_PATH:
+            self.__applicationController.setTestDataPath(data["path"], networkMessage)
+
+        if operationCode == OperationCode.TEST_RECOMMENDATIONS_ACCURACY:
+            self.__applicationController.testRecommendationsAccuracy(networkMessage)
+
+        if operationCode == OperationCode.CLEAR_GRAPH_DB:
+            self.__applicationController.clearGraphDB(networkMessage)
+
+        if operationCode == OperationCode.CLEAR_DATA_DB:
+            self.__applicationController.clearDataDB(networkMessage)
+
+        if operationCode == OperationCode.GET_CONFIGURATION_VALUE:
+            self.__applicationController.getConfigurationValue(data["configurationName"], networkMessage)

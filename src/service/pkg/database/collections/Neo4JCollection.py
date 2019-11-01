@@ -64,3 +64,9 @@ class Neo4JCollection(Collection):
                 resultList.append(resultDict)
 
             return resultList
+
+    def truncateDB(self):
+        with self.__driver.session() as session:
+            cypherQuery = 'match (n) with n limit 10000 DETACH DELETE n;'
+            results = session.run(statement=cypherQuery)
+            return results

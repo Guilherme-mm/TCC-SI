@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-class Observer(ABC):
+class Builder(ABC):
     @abstractmethod
-    def notify(self, data:object):
+    def build(self):
         pass
