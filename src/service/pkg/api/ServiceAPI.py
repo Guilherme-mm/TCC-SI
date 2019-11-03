@@ -34,6 +34,7 @@ class ServiceAPI(Observer):
             # If the message type is "Begin", then a new operation should be started.
             if data.getMessageType() == MessageType.BEGIN:
                 content = data.getContent()
+                self.__communication_manager.defineClient(data.getSenderAddress(), data.getSenderPort())
                 self.execute(OperationCode(content["operationCode"]), content, data)
 
             else:
@@ -105,7 +106,7 @@ class ServiceAPI(Observer):
             self.__applicationController.setTestDataPath(data["path"], networkMessage)
 
         if operationCode == OperationCode.TEST_RECOMMENDATIONS_ACCURACY:
-            self.__applicationController.testRecommendationsAccuracy(networkMessage)
+            self.__applicationController.testRecommendationsAccuracy(data["quantity"], data["K"])
 
         if operationCode == OperationCode.CLEAR_GRAPH_DB:
             self.__applicationController.clearGraphDB(networkMessage)

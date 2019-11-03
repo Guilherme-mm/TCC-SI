@@ -8,6 +8,6 @@ class RecommendationSystemFacade():
         recommendationsManager = RecommendationsManager()
         return recommendationsManager.getRecommendations(actorId, quantity)
 
-    def testRecommendationsAccuracy(self):
+    def testRecommendationsAccuracy(self, quantity:int, K:int):
         recommendationsManager = RecommendationsManager()
-        return recommendationsManager.testRecommendationsAccuracy()
+        return recommendationsManager.testRecommendationsAccuracy(quantity, K)

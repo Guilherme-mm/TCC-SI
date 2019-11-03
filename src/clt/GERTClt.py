@@ -1,6 +1,7 @@
 import socket
 import threading
 import json
+import sys
 import click
 
 from ApiMessage import ApiMessage
@@ -13,6 +14,16 @@ clt_address = ('python-clt', 10000)
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind(clt_address)
 
+
+def progressBar(value, endvalue, bar_length=20):
+    percent = float(value) / endvalue
+    arrow = '-' * int(round(percent * bar_length)-1) + '>'
+    spaces = ' ' * (bar_length - len(arrow))
+
+    sys.stdout.write("\rPercent: [{0}] {1}%".format(arrow + spaces, int(round(percent * 100))))
+    if value == endvalue:
+        sys.stdout.write("\n")
+    sys.stdout.flush()
 
 def SendMessage(message):
     # print('Sending: [{}]...'.format(message.getMessageBody()))
@@ -33,6 +44,9 @@ def MessageReceiver():
             exit()
         if messageBody["messageType"] == MessageType.CONTINUATION.value:
             print('{}'.format(messageBody["messageContent"]))
+
+        if messageBody["messageType"] == MessageType.PROGRESS.value:
+            progressBar(int(messageBody["messageContent"]), 100, 20)
 
 @click.group()
 def cli():
@@ -120,10 +134,14 @@ def setTestDataPath(path):
     SendMessage(message)
 
 @cli.command()
-def testRecommendationsAccuracy():
+@click.option('--quantity', help="The quantity of recommendations used to evaluate the accuracy")
+@click.option('--k', help="the number of close neighbors used to evaluate accuracy")
+def testRecommendationsAccuracy(quantity, k):
     messageBody = {}
     messageBody["messageContent"] = {}
     messageBody["messageContent"]["operationCode"] = 8 #Test Accuracy
+    messageBody["messageContent"]["quantity"] = quantity
+    messageBody["messageContent"]["K"] = k
     messageBody["messageType"] = 1 #Begin
     message = ApiMessage(json.dumps(messageBody), clt_address[0], clt_address[1], service_address[0], service_address[1])
     SendMessage(message)

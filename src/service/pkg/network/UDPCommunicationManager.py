@@ -31,6 +31,8 @@ class UDPCommunicationManager(NetworkCommunicationManager):
             self.__messagesQueue = []
             self.__observers = []
             self.__responsesQueue = []
+            self.__clientAddress = None
+            self.__clientPort = None
 
     def up(self):
         # Bind the socket to the port
@@ -80,9 +82,22 @@ class UDPCommunicationManager(NetworkCommunicationManager):
 
     def sendMessage(self, message:NetworkMessage):
         if not message.getReceiverAddress():
-            raise ValueError("The message object do not contain a valid target address.")
+            if not self.__clientAddress:
+                raise ValueError("The message object do not contain a valid target address and there is no default client defined.")
+            else:
+                message.setReceiverAddress(self.__clientAddress)
+
+        if not message.getReceiverPort():
+            if not self.__clientPort:
+                raise ValueError("The message object do not contain a valid target port and there is no default client defined.")
+            else:
+                message.setReceiverPort(self.__clientPort)
 
         self.__responsesQueue.append(message)
+
+    def defineClient(self, clientAddress:str, clientPort:int):
+        self.__clientAddress = clientAddress
+        self.__clientPort = clientPort
 
     def __messageListener(self):
         while True:

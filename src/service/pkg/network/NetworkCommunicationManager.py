@@ -18,3 +18,7 @@ class NetworkCommunicationManager(ABC):
     @abstractmethod
     def sendMessage(self, message:NetworkMessage):
         pass
+
+    @abstractmethod
+    def defineClient(self, clientAddress:str, clientPort:int):
+        pass

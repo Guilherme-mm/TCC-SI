@@ -6,14 +6,14 @@ class KNN(SelectionAlgorithm):
     def __init__(self):
         pass
 
-    def getRecommendations(self, actorId:str, quantity:int=10):
+    def getRecommendations(self, actorId:str, quantity:int=10, K:int=5):
         assert actorId
         assert isinstance(quantity, int)
 
         simGraphManager =  SimilarityGraphManager()
         cliendDataStorage = ClientDataStorage()
 
-        closestNeighbors = simGraphManager.getByWeight(actorId=actorId, limit=quantity)
+        closestNeighbors = simGraphManager.getByWeight(actorId=actorId, limit=K)
         neighborsIds = []
 
         for neighbor in closestNeighbors:
@@ -29,18 +29,24 @@ class KNN(SelectionAlgorithm):
         objectList = []
         recommendations = []
 
+        # For each neighbor of the actor...
         for neighbor in closestNeighbors:
             neighborId = neighbor["node"]["actorId"]
             relationshipWeight = neighbor["relationship"]["weight"]
 
+            # Iterates over de neighbors data array
             for neighborData in neighborsData:
+                # Only proceeds when encounters the current neighbor data
                 if neighborData["actorId"] != neighborId:
                     continue
 
                 neighborVectorData = neighborData["dataVector"]
+
+                # For each object in the current neighbor data...
                 for objectData in neighborVectorData:
                     objectNotUsedByActor = True
 
+                    # Iterates over the list of objects of the actor
                     for actorObjectData in actorVectorData:
                         if actorObjectData["objectId"] == objectData["objectId"]:
                             objectNotUsedByActor = False
@@ -48,16 +54,6 @@ class KNN(SelectionAlgorithm):
                     if objectNotUsedByActor:
                         objectData["weightedValue"] = float(objectData["value"]) * relationshipWeight
                         objectList.append(objectData)
-                        # recommendations.append(objectData["objectId"])
-
-                    # if len(recommendations) == quantity:
-                    #     break
-
-                # if len(recommendations) == quantity:
-                #     break
-
-            # if len(recommendations) == quantity:
-            #     break
 
         recommendations = objectList
         recommendations.sort(key=lambda x: x["weightedValue"],reverse=True)

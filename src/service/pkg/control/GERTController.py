@@ -1,5 +1,5 @@
 import os.path
-import json
+# import json
 
 from typing import Generator
 
@@ -14,6 +14,7 @@ from ..logic.recomendation.RecommendationSystemFacade import RecommendationSyste
 from ..logic.recomendation.SelectionAlgorithmsTypes import SelectionAlgorithmsTypes
 from ..network.NetworkManagerFactory import NetworkManagerFactory
 from ..model.message.NetworkMessageBuilder import NetworkMessageBuilder
+from ..utils.ClientCommunicationUtils import ClientCommunicationUtils
 
 class GERTController():
 
@@ -184,16 +185,13 @@ class GERTController():
         else:
             self.__sendMessageToRequester(messageContent="Configuration could not be cached in memory", messageType=MessageType.END, requestNetworkMessage=requestNetworkMessage)
 
-    def testRecommendationsAccuracy(self, requestNetworkMessage:NetworkMessage):
-        # self.__sendMessageToRequester(messageContent="Checking for a test data file...", messageType=MessageType.CONTINUATION, requestNetworkMessage=requestNetworkMessage)
-
-        # configManager = ConfigurationsStorage()
-        # testDataFilePath = configManager.getConfiguration("testDataPath")
-
+    def testRecommendationsAccuracy(self, quantity:int, K:int):
         recommendationFacade = RecommendationSystemFacade()
-        result = recommendationFacade.testRecommendationsAccuracy()
-        self.__sendMessageToRequester(messageContent="Testing completed", messageType=MessageType.CONTINUATION, requestNetworkMessage=requestNetworkMessage)
-        self.__sendMessageToRequester(messageContent="Average variation: {}. Missed recommendations: {}".format(result["variationAvg"], result["missedRecommendations"]), messageType=MessageType.END, requestNetworkMessage=requestNetworkMessage)
+        result = recommendationFacade.testRecommendationsAccuracy(int(quantity), int(K))
+
+        ClientCommunicationUtils.sendMessage("MAE: {0:.2f}%".format(result["variationAvg"]))
+        ClientCommunicationUtils.sendMessage("MWE: {0:.2f}%".format(result["weightedVariationAvg"]))
+        ClientCommunicationUtils.sendEndMessage("Recall: {}".format(result["missedRecommendations"]))
 
     def clearGraphDB(self, requestNetworkMessage:NetworkMessage):
         simSystemFacade = SimilaritySystemFacade()

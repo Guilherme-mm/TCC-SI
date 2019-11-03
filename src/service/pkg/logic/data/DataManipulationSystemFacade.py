@@ -50,6 +50,18 @@ class DataManipulationSystemFacade():
                 logEntry =  LogEntry(linePositions[0], "rated", linePositions[1], linePositions[2])
                 yield logEntry
 
+    def getTestDataRowsCnt(self) -> int:
+        configManager = ConfigurationsStorage()
+        testDataFilePath = configManager.getConfiguration("testDataPath")
+
+        totalLineNumber = 0
+        with open(testDataFilePath, 'r') as dataFile:
+            for line in dataFile:
+                totalLineNumber += 1
+
+        return totalLineNumber
+
     def clearClientData(self):
         clientDataManager = ClientDataManager()
         return clientDataManager.wipeClientData()
+        

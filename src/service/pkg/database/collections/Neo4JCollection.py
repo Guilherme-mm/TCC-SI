@@ -3,7 +3,7 @@ from .Collection import Collection
 
 class Neo4JCollection(Collection):
     def __init__(self):
-        print("Getting neo4j connection")
+        # print("Getting neo4j connection")
         self.__driver = GraphDatabase.driver("bolt://neo4j:7687", auth=("neo4j", "gertneo4j"))
 
     def insert(self, labels, properties):

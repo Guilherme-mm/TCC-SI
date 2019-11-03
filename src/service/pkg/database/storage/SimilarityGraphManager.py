@@ -3,7 +3,7 @@ from ..collections.Neo4JCollection import Neo4JCollection
 class SimilarityGraphManager():
     def __init__(self):
         self.__neo4jCollection = Neo4JCollection()
-        print("Connection with database granted")
+        # print("Connection with database granted")
 
     def generateGraphFromSimMatrix(self, similarityMatrix, rowActorsMap):
         labels = ["Actor"]
