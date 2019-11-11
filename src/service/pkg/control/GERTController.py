@@ -193,7 +193,7 @@ class GERTController():
 
     def clearGraphDB(self, requestNetworkMessage:NetworkMessage):
         simSystemFacade = SimilaritySystemFacade()
-        simSystemFacade.clearPersistedSimData()
+        simSystemFacade.clearPersiste dSimData()
 
         self.__sendMessageToRequester(messageContent="Data wipe completed!", messageType=MessageType.END, requestNetworkMessage=requestNetworkMessage)
 
