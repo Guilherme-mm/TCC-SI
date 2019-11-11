@@ -21,7 +21,10 @@ class KNN(SelectionAlgorithm):
 
         #Getting the objects that the actor interacted
         actorData = cliendDataStorage.getActorData(actorId)
-        actorVectorData = actorData["dataVector"]
+        if actorData:
+            actorVectorData = actorData["dataVector"]
+        else :
+            actorVectorData = []
 
         #Getting object data from neighbors
         neighborsData = cliendDataStorage.getActorsData(neighborsIds)

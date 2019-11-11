@@ -62,6 +62,8 @@ class RecommendationsManager():
         actorsCounter = 0
         totalActors = len(actorsDict.values())
 
+        # print(actorsDict)
+
         for actor in actorsDict.values():
             actorsCounter = actorsCounter + 1
 
@@ -72,14 +74,19 @@ class RecommendationsManager():
                     totalItemsWithoutRecommendation = totalItemsWithoutRecommendation + 1
                     continue
 
-                actionObject["realValue"] = actionObject["realValue"]
+                # actionObject["realValue"] = actionObject["realValue"]
                 actionObject["recommendedValue"] = float(actionObject["recommendedValue"])
+
                 variation = ((actionObject["realValue"] - actionObject["recommendedValue"])/actionObject["realValue"]) * 100
                 weightedVariation = ((actionObject["realValue"] - actionObject["weightedRecommendedValue"])/actionObject["realValue"]) * 100
+
                 variancesList.append(abs(variation))
                 weightedVariancesList.append(abs(weightedVariation))
+                print("R: {}, RC: {}, WRC: {}, V: {}, WV: {}".format(actionObject["realValue"], actionObject["recommendedValue"], actionObject["weightedRecommendedValue"], variation, weightedVariation))
 
             ClientCommunicationUtils.sendProgress((actorsCounter * 100)/totalActors)
+
+        # print(variancesList)
 
         return {
             "variationAvg": sum(variancesList)/len(variancesList),

@@ -1,4 +1,5 @@
 from ..collections.MongoCollection import MongoCollection
+from ...utils.ClientCommunicationUtils import ClientCommunicationUtils
 
 class ClientDataStorage():
     def __init__(self):
@@ -6,7 +7,12 @@ class ClientDataStorage():
         self.__mongoCollection.selectCollection("client_data")
 
     def saveClientData(self, clientData, dataMap):
+        ClientCommunicationUtils.sendMessage("Persisting raw data")
+
+        itensCount = len(clientData.values())
+        itensCounter = 0
         for actorId, dataVector in clientData.items():
+            itensCounter = itensCounter + 1
             sanitizedDataVector = []
             for objectId, objectIndex in dataMap.items():
                 if dataVector[objectIndex] == 0:
@@ -24,6 +30,7 @@ class ClientDataStorage():
             }
 
             self.__mongoCollection.update(document=acorDict, queryFilter=queryFilter, upsert=True)
+            ClientCommunicationUtils.sendProgress((itensCounter * 100)/itensCount)
 
     def getActorData(self, actorId):
         queryFilter = {

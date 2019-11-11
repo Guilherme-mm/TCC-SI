@@ -60,11 +60,15 @@ def sendMessageToService(body):
 
 @cli.command()
 @click.option('--path', help='Location of the log files from where data will be collected')
-def setLogPath(path):
+@click.option('--header', default = True, help='If the first line of the file is a header')
+@click.option('--separator', default = '\t', help='Data separation caracter')
+def setLogPath(path, header, separator):
     messageBody = {}
     messageBody["messageContent"] = {}
     messageBody["messageContent"]["operationCode"] = 1 #Set log path
     messageBody["messageContent"]["path"] = path
+    messageBody["messageContent"]["hasHeader"] = header
+    messageBody["messageContent"]["separator"] = separator
     messageBody["messageType"] = 1 #Begin
     message = ApiMessage(json.dumps(messageBody), clt_address[0], clt_address[1], service_address[0], service_address[1])
     SendMessage(message)
@@ -114,10 +118,11 @@ def setRecommendationSelectionAlgorithm(algorithm):
 @click.option('--quantity', default=10, help="The number of recommendations desired")
 def getRecommendations(actor, quantity):
     messageBody = {}
-    messageBody["operationCode"] = 6
+    messageBody["messageContent"] = {}
+    messageBody["messageContent"]["operationCode"] = 6
+    messageBody["messageContent"]["actorId"] = actor
+    messageBody["messageContent"]["quantity"] = quantity
     messageBody["messageType"] = 1 #Begin
-    messageBody["actorId"] = actor
-    messageBody["quantity"] = quantity
     message = ApiMessage(json.dumps(messageBody), clt_address[0], clt_address[1], service_address[0], service_address[1])
     SendMessage(message)
 

@@ -85,10 +85,10 @@ class ServiceAPI(Observer):
     # Simulates a routing phase to determine wich method the application controller must execute.
     def execute(self, operationCode:OperationCode, data:dict, networkMessage:NetworkMessage):
         if operationCode == OperationCode.SET_LOG_PATH:
-            self.__applicationController.setLogPath(data["path"], networkMessage)
+            self.__applicationController.setLogPath(data["path"], data["hasHeader"], data["separator"])
 
         if operationCode == OperationCode.UPDATE_MODEL:
-            self.__applicationController.updateModel(networkMessage)
+            self.__applicationController.updateModel()
 
         if operationCode == OperationCode.SET_SIMILARITY_ENGINE:
             self.__applicationController.setSimilarityEngine(data["similarityEngineName"], networkMessage)

@@ -27,6 +27,7 @@ class SimilarityManager():
         self.__similarityMatrix = None
 
     def putVectorCoordinate(self, vectorId:str, dimensionId:str, coordinate:int) -> bool:
+        # print("adding {} as {} into {}".format(dimensionId, coordinate, vectorId))
         #Checks if a vector with this id alredy exists and instantiates it if not
         if self.__dataMatrix.get(vectorId, None) is None:
             self.__dataMatrix[vectorId] = []

@@ -34,49 +34,47 @@ class GERTController():
 
         self.networkManager.sendMessage(responseMessage)
 
-    def setLogPath(self, logPath:str, requestNetworkMessage:NetworkMessage) -> Generator:
-        self.__sendMessageToRequester(messageContent="Validating provided path...", messageType=MessageType.CONTINUATION, requestNetworkMessage=requestNetworkMessage)
+    def setLogPath(self, logPath:str, hasHeader:bool, separator:str) -> Generator:
+        ClientCommunicationUtils.sendMessage("Validating provided path...")
 
         if not os.path.exists(logPath):
             pass
 
-        self.__sendMessageToRequester(messageContent="Path is valid!", messageType=MessageType.CONTINUATION, requestNetworkMessage=requestNetworkMessage)
-        configManager = ConfigurationsStorage()
+        ClientCommunicationUtils.sendMessage("Path is valid!")
 
+        configManager = ConfigurationsStorage()
         result = configManager.setConfiguration("clientLogPath", logPath)
+        configManager.setConfiguration("dataFileHasHeader", hasHeader)
+        configManager.setConfiguration("dataFileSeparator", separator)
 
         if result["updated"] == 0 and result["inserted"] == 0:
-            self.__sendMessageToRequester(messageContent="The new provided path is identical to the current value. No changes were made.", messageType=MessageType.CONTINUATION, requestNetworkMessage=requestNetworkMessage)
+            ClientCommunicationUtils.sendMessage("The new provided path is identical to the current value. No changes were made.")
         else:
             if result["updated"] > 0:
-                self.__sendMessageToRequester(messageContent="The client data logs path was successfully updated!", messageType=MessageType.CONTINUATION, requestNetworkMessage=requestNetworkMessage)
+                ClientCommunicationUtils.sendMessage("The client data logs path was successfully updated!")
 
             if result["inserted"] > 0:
-                self.__sendMessageToRequester(messageContent="The client data logs path was saved in a new configuration key", messageType=MessageType.CONTINUATION, requestNetworkMessage=requestNetworkMessage)
+                ClientCommunicationUtils.sendMessage("The client data logs path was saved in a new configuration key")
 
         if result["cached_in_memory"]:
-            self.__sendMessageToRequester(messageContent="Configuration cached in memory with success", messageType=MessageType.END, requestNetworkMessage=requestNetworkMessage)
+            ClientCommunicationUtils.sendEndMessage("Configuration cached in memory with success")
         else:
-            self.__sendMessageToRequester(messageContent="Configuration could not be cached in memory", messageType=MessageType.END, requestNetworkMessage=requestNetworkMessage)
+            ClientCommunicationUtils.sendEndMessage("Configuration could not be cached in memory")
 
-    def updateModel(self, requestNetworkMessage:NetworkMessage) -> Generator:
-        print("Starting model atualization routine")
-        self.__sendMessageToRequester(messageContent="Starting model update logic...!", messageType=MessageType.CONTINUATION, requestNetworkMessage=requestNetworkMessage)
+    def updateModel(self) -> Generator:
+        ClientCommunicationUtils.sendMessage("Starting model update logic")
 
-        print("Starting sub-systems facades")
         dataSystemFacade = DataManipulationSystemFacade()
         similaritySystemFacade = SimilaritySystemFacade()
 
-        print("Opening data file and creating generator")
         logEntriesGenerator = dataSystemFacade.collectClientLogData()
+        totalLogEntriesCount = dataSystemFacade.getClientDataRowsCnt()
 
-        print("Calculating similarities from log entries readed")
-        similarityData = similaritySystemFacade.calculateSimilarities(logEntriesGenerator)
+        similarityData = similaritySystemFacade.calculateSimilarities(logEntriesGenerator, totalLogEntriesCount)
         similaritySystemFacade.persistSimilarities(similarityData["similarityMatrix"], similarityData["rowActorsMap"])
         dataSystemFacade.persistClientData(similarityData["clientExtractedData"], similarityData["clientExtractedDataMap"])
 
-        self.__sendMessageToRequester(messageContent="Model update complete!", messageType=MessageType.END, requestNetworkMessage=requestNetworkMessage)
-        print("Model successfully updated")
+        ClientCommunicationUtils.sendEndMessage("Model update complete")
 
     def setSimilarityEngine(self, engineName:str, requestNetworkMessage:NetworkMessage):
         self.__sendMessageToRequester(messageContent="Checking engine...", messageType=MessageType.CONTINUATION, requestNetworkMessage=requestNetworkMessage)
@@ -156,7 +154,7 @@ class GERTController():
         recommendationFacade = RecommendationSystemFacade()
         recommendations = recommendationFacade.getRecommendations(actorId, quantity)
 
-        yield Message(recommendations, MessageType.END)
+        ClientCommunicationUtils.sendEndMessage(recommendations)
 
     def setTestDataPath(self, path:str, requestNetworkMessage:NetworkMessage):
         self.__sendMessageToRequester(messageContent="Validating provided path...", messageType=MessageType.CONTINUATION, requestNetworkMessage=requestNetworkMessage)

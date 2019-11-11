@@ -1,23 +1,26 @@
 from .SimilarityManager import SimilarityManager
 from ...database.storage.SimilarityGraphManager import SimilarityGraphManager
+from ...utils.ClientCommunicationUtils import ClientCommunicationUtils
 
 class SimilaritySystemFacade():
     def __init__(self):
         print("Similarity subsystem facade instantiated")
 
-    def calculateSimilarities(self, logEntriesGenerator):
+    def calculateSimilarities(self, logEntriesGenerator, generatorSize:int):
         similarityManager = SimilarityManager()
-
-        print("Reading lines and adding data to the vectors coordinate matrix...")
+        print("iterating over generator...", generatorSize)
+        entriesCounter = 0
         for entry in logEntriesGenerator:
+            entriesCounter = entriesCounter + 1
+            if generatorSize:
+                print("updating progress...", entriesCounter)
+                ClientCommunicationUtils.sendProgress((entriesCounter * 100)/generatorSize)
+
             similarityManager.putVectorCoordinate(entry.getActor(), entry.getActionObject(), entry.getValue())
 
-        print("Data extraction done!")
-
-        print("Generating the similarity matrix...")
+        ClientCommunicationUtils.sendMessage("Generating similarity matrix")
         similarityManager.generateSimilarityMatrix()
 
-        print("Returning generated sim data")
         return {
             "similarityMatrix":similarityManager.getSimilarityMatrix(),
             "rowActorsMap":similarityManager.getSimMatrixMap(),
@@ -29,7 +32,6 @@ class SimilaritySystemFacade():
         pass
 
     def persistSimilarities(self, similarityMatrix, rowActorMap):
-        print("Starting sim data persist")
         simGraphManager = SimilarityGraphManager()
         return simGraphManager.generateGraphFromSimMatrix(similarityMatrix, rowActorMap)
 

@@ -1,4 +1,5 @@
 from ..collections.Neo4JCollection import Neo4JCollection
+from ...utils.ClientCommunicationUtils import ClientCommunicationUtils
 
 class SimilarityGraphManager():
     def __init__(self):
@@ -10,25 +11,35 @@ class SimilarityGraphManager():
         properties = {}
 
         #Adding the actors nodes
-        print("Creating nodes...")
+        ClientCommunicationUtils.sendMessage("Creating nodes")
+        actorsCount = len(rowActorsMap.values())
+        actorsCounter = 0
+
         for actorRow, actorId in rowActorsMap.items(): # pylint: disable=unused-variable
+            actorsCounter = actorsCounter + 1
             properties["actorId"] = actorId
             try:
                 self.__neo4jCollection.insert(labels, properties)
-                print("Actor {} created".format(actorId))
             except Exception: # pylint: disable=broad-except
                 print("Actor {} skipped".format(actorId))
-                continue
+            finally:
+                ClientCommunicationUtils.sendProgress((actorsCounter * 100)/actorsCount)
 
         #Creating the relationships based on the matrix
-        print("Creating the relationships")
+        ClientCommunicationUtils.sendMessage("Connecting nodes")
+        rowsCount = len(similarityMatrix)
+        rowsCounter = 0
         for rowIdx, row in enumerate(similarityMatrix):
+            rowsCounter = rowsCounter + 1
             rowActorId = rowActorsMap[rowIdx]
+
             print("Creating relationships for {}".format(rowActorId))
             for columnIdx, relationshipWeight in enumerate(row):
                 columnActorId = rowActorsMap[columnIdx]
-                if relationshipWeight > 0:
+                if relationshipWeight != 0:
                     self.__neo4jCollection.createRelationship(labels, rowActorId, labels, columnActorId, relationshipWeight)
+
+            ClientCommunicationUtils.sendProgress((rowsCounter *100)/rowsCount)
 
         return True
 
