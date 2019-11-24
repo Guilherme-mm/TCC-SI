@@ -27,7 +27,7 @@ class SimilarityManager():
         self.__similarityMatrix = None
 
     def putVectorCoordinate(self, vectorId:str, dimensionId:str, coordinate:int) -> bool:
-        # print("adding {} as {} into {}".format(dimensionId, coordinate, vectorId))
+        print("adding {} as {} into {}".format(dimensionId, coordinate, vectorId))
         #Checks if a vector with this id alredy exists and instantiates it if not
         if self.__dataMatrix.get(vectorId, None) is None:
             self.__dataMatrix[vectorId] = []
@@ -56,7 +56,6 @@ class SimilarityManager():
         biggestVectorKey, biggestVector = max(self.__dataMatrix.items(), key = lambda x: len(x[1]))
         biggestVectorLen = len(biggestVector)
         # numberOfVectors = len(self.__dataMatrix.keys())
-
         print("Normalizing data matrix shape")
         # Grants that every vector of the data matrix has the same lenght
         for key in self.__dataMatrix:

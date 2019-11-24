@@ -9,6 +9,7 @@ Description
 """
 
 from pkg.api.ServiceAPI import ServiceAPI
+import pkg.api.ExternalAPI
 
 if __name__ == '__main__':
     SERVICEAPI = ServiceAPI()

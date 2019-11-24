@@ -83,13 +83,15 @@ class UDPCommunicationManager(NetworkCommunicationManager):
     def sendMessage(self, message:NetworkMessage):
         if not message.getReceiverAddress():
             if not self.__clientAddress:
-                raise ValueError("The message object do not contain a valid target address and there is no default client defined.")
+                print("WARNING: No response is sent due to missing client information: <address>")
+                return
             else:
                 message.setReceiverAddress(self.__clientAddress)
 
         if not message.getReceiverPort():
             if not self.__clientPort:
-                raise ValueError("The message object do not contain a valid target port and there is no default client defined.")
+                print("WARNING: No response is sent due to missing client information: <port>")
+                return
             else:
                 message.setReceiverPort(self.__clientPort)
 

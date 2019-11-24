@@ -45,7 +45,7 @@ class Neo4JCollection(Collection):
 
                 orderString += orderBy["direction"].upper()
 
-            cypherQuery = "MATCH (n:"+nodeALabelsString+" {actorId: {nodeAProperties}.actorId})-[r:"+relationshipLabelsString+"]->(n2:"+nodeBLabelsString+") WHERE NOT n2.actorId =" + nodeAProperties["actorId"] + " RETURN DISTINCT n2.actorId,r.weight "+orderString+" LIMIT "+str(limit)
+            cypherQuery = "MATCH (n:"+nodeALabelsString+" {actorId: {nodeAProperties}.actorId})-[r:"+relationshipLabelsString+"]->(n2:"+nodeBLabelsString+") WHERE NOT n2.actorId ='" + nodeAProperties["actorId"] + "' RETURN DISTINCT n2.actorId,r.weight "+orderString+" LIMIT "+str(limit)
             results = session.run(statement=cypherQuery, nodeAProperties=nodeAProperties)
 
             # match where NOT neighbor.actorId = "115"  return DISTINCT actor.actorId,similarity.weight,neighbor.actorId order by similarity.weight desc LIMIT 20

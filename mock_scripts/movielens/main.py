@@ -46,12 +46,12 @@ for userID, reviewData in removedReviews.items():
     trueScore = float(reviewData["score"])
     supposedScore = 0
     recomendations = functions.getRecommendations(userMap, userID)
-    
+
     for recomendation in recomendations:
         if reviewData["film"] == recomendation[1]:
             supposedScore = float(recomendation[0])
             break
-    
+
     variation = abs((supposedScore - trueScore)/trueScore * 100)
     testsVariation.append(variation)
 

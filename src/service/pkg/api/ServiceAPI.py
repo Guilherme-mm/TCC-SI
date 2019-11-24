@@ -91,7 +91,7 @@ class ServiceAPI(Observer):
             self.__applicationController.updateModel()
 
         if operationCode == OperationCode.SET_SIMILARITY_ENGINE:
-            self.__applicationController.setSimilarityEngine(data["similarityEngineName"], networkMessage)
+            self.__applicationController.setSimilarityEngine(data["similarityEngineName"])
 
         if operationCode == OperationCode.SET_CLUSTER_ALGORITHM:
             self.__applicationController.setClusterAlgorithm(data["clusterAlgorithmName"])
@@ -103,7 +103,7 @@ class ServiceAPI(Observer):
             self.__applicationController.getRecommendations(data["actorId"], data["quantity"])
 
         if operationCode == OperationCode.SET_TEST_DATA_PATH:
-            self.__applicationController.setTestDataPath(data["path"], networkMessage)
+            self.__applicationController.setTestDataPath(data["path"])
 
         if operationCode == OperationCode.TEST_RECOMMENDATIONS_ACCURACY:
             self.__applicationController.testRecommendationsAccuracy(data["quantity"], data["K"])
@@ -115,4 +115,4 @@ class ServiceAPI(Observer):
             self.__applicationController.clearDataDB(networkMessage)
 
         if operationCode == OperationCode.GET_CONFIGURATION_VALUE:
-            self.__applicationController.getConfigurationValue(data["configurationName"], networkMessage)
+            self.__applicationController.getConfigurationValue(data["configurationName"])

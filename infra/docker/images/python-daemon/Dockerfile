@@ -11,3 +11,4 @@ RUN pip install pymongo
 RUN pip install redis
 RUN pip install numpy scipy matplotlib ipython jupyter pandas sympy nose
 RUN pip install neo4j
+RUN pip install flask

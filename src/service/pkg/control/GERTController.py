@@ -61,7 +61,7 @@ class GERTController():
         else:
             ClientCommunicationUtils.sendEndMessage("Configuration could not be cached in memory")
 
-    def updateModel(self) -> Generator:
+    def updateModel(self):
         ClientCommunicationUtils.sendMessage("Starting model update logic")
 
         dataSystemFacade = DataManipulationSystemFacade()
@@ -76,29 +76,29 @@ class GERTController():
 
         ClientCommunicationUtils.sendEndMessage("Model update complete")
 
-    def setSimilarityEngine(self, engineName:str, requestNetworkMessage:NetworkMessage):
-        self.__sendMessageToRequester(messageContent="Checking engine...", messageType=MessageType.CONTINUATION, requestNetworkMessage=requestNetworkMessage)
+    def setSimilarityEngine(self, engineName:str):
+        ClientCommunicationUtils.sendMessage("Checking engine...")
 
         # validating the provided engine name
         try:
             SimilarityAlgorithmsTypes(engineName)
-            self.__sendMessageToRequester(messageContent="Selected engine is valid!", messageType=MessageType.CONTINUATION, requestNetworkMessage=requestNetworkMessage)
+            ClientCommunicationUtils.sendMessage("Selected engine is valid!")
         except ValueError:
-            self.__sendMessageToRequester(messageContent="Invalid engine name provided. Exiting.", messageType=MessageType.END, requestNetworkMessage=requestNetworkMessage)
+            ClientCommunicationUtils.sendEndMessage("Invalid engine name provided. Exiting.")
 
         configManager = ConfigurationsStorage()
         result = configManager.setConfiguration("similarityEngine", engineName)
 
         if result["updated"] == 0 and result["inserted"] == 0:
-            self.__sendMessageToRequester(messageContent="The provided engine and the previusly configured are the same. No changes were made.", messageType=MessageType.CONTINUATION, requestNetworkMessage=requestNetworkMessage)
+            ClientCommunicationUtils.sendMessage("The provided engine and the previusly configured are the same. No changes were made.")
         else:
             if result["updated"] > 0 or result["inserted"] > 0:
-                self.__sendMessageToRequester(messageContent="Similarity engine successfully configured!", messageType=MessageType.CONTINUATION, requestNetworkMessage=requestNetworkMessage)
+                ClientCommunicationUtils.sendMessage("Similarity engine successfully configured!")
 
         if result["cached_in_memory"]:
-            self.__sendMessageToRequester(messageContent="Configuration cached in memory with success", messageType=MessageType.END, requestNetworkMessage=requestNetworkMessage)
+            ClientCommunicationUtils.sendEndMessage("Configuration cached in memory with success")
         else:
-            self.__sendMessageToRequester(messageContent="Configuration could not be cached in memory", messageType=MessageType.END, requestNetworkMessage=requestNetworkMessage)
+            ClientCommunicationUtils.sendEndMessage("Configuration could not be cached in memory")
 
     def setClusterAlgorithm(self, algorithmName:str) -> Generator:
         yield Message("Validating algorithm name...", MessageType.CONTINUATION)
@@ -150,11 +150,12 @@ class GERTController():
         else:
             yield Message("Configuration could not be cached in memory", MessageType.END)
 
-    def getRecommendations(self, actorId:str, quantity:int) -> Generator:
+    def getRecommendations(self, actorId:str, quantity:int):
         recommendationFacade = RecommendationSystemFacade()
         recommendations = recommendationFacade.getRecommendations(actorId, quantity)
 
         ClientCommunicationUtils.sendEndMessage(recommendations)
+        return recommendations
 
     def setTestDataPath(self, path:str, requestNetworkMessage:NetworkMessage):
         self.__sendMessageToRequester(messageContent="Validating provided path...", messageType=MessageType.CONTINUATION, requestNetworkMessage=requestNetworkMessage)
@@ -191,17 +192,17 @@ class GERTController():
         ClientCommunicationUtils.sendMessage("MWE: {0:.2f}%".format(result["weightedVariationAvg"]))
         ClientCommunicationUtils.sendEndMessage("Recall: {}".format(result["missedRecommendations"]))
 
-    def clearGraphDB(self, requestNetworkMessage:NetworkMessage):
+    def clearGraphDB(self):
         simSystemFacade = SimilaritySystemFacade()
-        simSystemFacade.clearPersiste dSimData()
+        simSystemFacade.clearPersistedSimData()
 
-        self.__sendMessageToRequester(messageContent="Data wipe completed!", messageType=MessageType.END, requestNetworkMessage=requestNetworkMessage)
+        ClientCommunicationUtils.sendEndMessage("Data wipe completed!")
 
-    def clearDataDB(self, requestNetworkMessage:NetworkMessage):
+    def clearDataDB(self):
         dataSystemFacade = DataManipulationSystemFacade()
 
         dataSystemFacade.clearClientData()
-        self.__sendMessageToRequester(messageContent="Data wipe completed!", messageType=MessageType.END, requestNetworkMessage=requestNetworkMessage)
+        ClientCommunicationUtils.sendEndMessage("Data wipe completed!")
 
     def getConfigurationValue(self, configurationName:str, requestNetworkMessage:NetworkMessage):
         configStorage = ConfigurationsStorage()
